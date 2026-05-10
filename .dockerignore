@@ -1,0 +1,10 @@
+.git
+.gitignore
+.renatao
+Sistemas
+AGENTS.md
+README.md
+PLAN.md
+PROGRESS_LOG.md
+*.md
+.dockerignore
