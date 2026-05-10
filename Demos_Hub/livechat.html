@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Navex LiveChat - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}
+.contacts{width:280px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden}
+.contacts-head{padding:16px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+.contacts-search{padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem;width:100%}
+.contacts-list{flex:1;overflow-y:auto}
+.contact{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);cursor:pointer;transition:all .2s;display:flex;gap:10px;align-items:center}
+.contact:hover,.contact.active{background:rgba(91,142,245,.06)}
+.contact-avatar{width:36px;height:36px;border-radius:50%;background:rgba(91,142,245,.15);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+.contact-info{flex:1;min-width:0}.contact-name{color:var(--starlight);font-size:.85rem;font-weight:500}.contact-last{color:var(--nebula);font-size:.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contact-meta{display:flex;flex-direction:column;align-items:flex-end;gap:4px}.contact-time{font-size:.7rem;color:var(--orbit)}.contact-badge{background:var(--eblue);color:white;font-size:.65rem;padding:2px 6px;border-radius:10px;font-weight:600}
+.chat-area{flex:1;display:flex;flex-direction:column}
+.chat-head{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px}
+.chat-head-name{color:var(--starlight);font-weight:600}.chat-head-status{color:var(--success);font-size:.75rem}
+.chat-body{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:70%;padding:10px 14px;border-radius:12px;font-size:.85rem;line-height:1.5}
+.msg-in{background:rgba(255,255,255,.06);color:var(--starlight);align-self:flex-start;border-bottom-left-radius:2px}
+.msg-out{background:rgba(91,142,245,.2);color:var(--starlight);align-self:flex-end;border-bottom-right-radius:2px}
+.msg-sys{background:rgba(255,193,7,.08);color:#ffc107;align-self:center;font-size:.75rem;padding:6px 12px;border-radius:20px}
+.msg-time{font-size:.65rem;color:var(--orbit);margin-top:4px}
+.chat-footer{padding:12px 20px;border-top:1px solid var(--line);display:flex;gap:8px}
+.chat-input{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem}
+.agents-panel{width:220px;background:rgba(255,255,255,.02);border-left:1px solid var(--line);padding:16px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+.agent{display:flex;align-items:center;gap:8px;font-size:.82rem;padding:6px 0}
+.agent-dot{width:8px;height:8px;border-radius:50%}.agent-on{background:var(--success)}.agent-off{background:var(--nebula)}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<div class="contacts">
+<div class="contacts-head">
+<a href="../navex-hub-portfolio-v1 (1).html" style="color:var(--nebula);text-decoration:none;font-size:.82rem">← Voltar ao Hub</a>
+<input class="contacts-search" placeholder="🔍 Buscar conversa...">
+</div>
+<div class="contacts-list">
+<div class="contact active" onclick="openChat(0)"><div class="contact-avatar">👤</div><div class="contact-info"><div class="contact-name">Roberto Silva</div><div class="contact-last">Preciso de ajuda com meu pedido...</div></div><div class="contact-meta"><span class="contact-time">14:32</span><span class="contact-badge">2</span></div></div>
+<div class="contact" onclick="openChat(1)"><div class="contact-avatar">👤</div><div class="contact-info"><div class="contact-name">Ana Carla</div><div class="contact-last">Obrigada, resolvido!</div></div><div class="contact-meta"><span class="contact-time">14:15</span></div></div>
+<div class="contact" onclick="openChat(2)"><div class="contact-avatar">👤</div><div class="contact-info"><div class="contact-name">Marcos Oliveira</div><div class="contact-last">Vocês fazem instalação?</div></div><div class="contact-meta"><span class="contact-time">13:50</span><span class="contact-badge">1</span></div></div>
+<div class="contact" onclick="openChat(3)"><div class="contact-avatar">👤</div><div class="contact-info"><div class="contact-name">Julia Costa</div><div class="contact-last">Qual o prazo de entrega para SP?</div></div><div class="contact-meta"><span class="contact-time">13:22</span></div></div>
+</div>
+</div>
+<div class="chat-area">
+<div class="chat-head"><div class="contact-avatar">👤</div><div><div class="chat-head-name" id="chatName">Roberto Silva</div><div class="chat-head-status" id="chatStatus">● Online agora</div></div></div>
+<div class="chat-body" id="chatBody"></div>
+<div class="chat-footer"><input class="chat-input" id="chatInput" placeholder="Digite uma mensagem..." onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn sm" onclick="sendMsg()">Enviar</button></div>
+</div>
+<div class="agents-panel">
+<div style="color:var(--starlight);font-size:.85rem;font-weight:600">Agentes Online</div>
+<div class="agent"><span class="agent-dot agent-on"></span><span style="color:var(--starlight)">Erick (Admin)</span></div>
+<div class="agent"><span class="agent-dot agent-on"></span><span style="color:var(--starlight)">Maria (Suporte)</span></div>
+<div class="agent"><span class="agent-dot agent-off"></span><span style="color:var(--nebula)">Carlos (Vendas)</span></div>
+<div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-top:12px">Estatísticas</div>
+<div style="font-size:.8rem;color:var(--nebula);line-height:1.8">Conversas ativas: <strong style="color:var(--starlight)">4</strong><br>Tempo médio: <strong style="color:var(--starlight)">3min</strong><br>Resolvidas hoje: <strong style="color:var(--success)">28</strong><br>Satisfação: <strong style="color:var(--success)">96%</strong></div>
+</div>
+</div>
+<script>
+const CHATS=[
+  [{from:'sys',text:'Roberto foi encaminhado pelo chatbot'},{from:'in',text:'Olá, preciso de ajuda com meu pedido #4521. A entrega está atrasada.'},{from:'out',text:'Olá Roberto! Vou verificar o status do seu pedido agora mesmo.'},{from:'in',text:'Obrigado, estou aguardando há 15 dias já.'}],
+  [{from:'in',text:'Oi, tenho dúvida sobre o espelho que comprei'},{from:'out',text:'Olá Ana! Em que posso ajudar?'},{from:'in',text:'O espelho pode ser instalado na área externa coberta?'},{from:'out',text:'Recomendamos uso interno ou área coberta sem exposição direta a chuva. O produto não é à prova d\'água.'},{from:'in',text:'Obrigada, resolvido!'}],
+  [{from:'in',text:'Vocês fazem instalação dos espelhos?'},{from:'out',text:'Olá Marcos! Atualmente não fazemos instalação, mas o produto acompanha kit de fixação completo com manual.'}],
+  [{from:'in',text:'Qual o prazo de entrega para SP capital?'},{from:'out',text:'Olá Julia! Para SP Capital o prazo é de 3 a 5 dias úteis após a postagem. Trabalhamos com envio em até 24h após confirmação do pagamento.'}],
+];
+const NAMES=['Roberto Silva','Ana Carla','Marcos Oliveira','Julia Costa'];
+let curChat=0;
+function openChat(i){
+  curChat=i;document.querySelectorAll('.contact').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.contact')[i].classList.add('active');
+  document.getElementById('chatName').textContent=NAMES[i];
+  renderChat();
+}
+function renderChat(){
+  document.getElementById('chatBody').innerHTML=CHATS[curChat].map(m=>`<div class="msg ${m.from==='in'?'msg-in':m.from==='out'?'msg-out':'msg-sys'}">${m.text}</div>`).join('');
+  document.getElementById('chatBody').scrollTop=999999;
+}
+function sendMsg(){
+  const v=document.getElementById('chatInput').value.trim();if(!v)return;
+  CHATS[curChat].push({from:'out',text:v});renderChat();document.getElementById('chatInput').value='';
+  setTimeout(()=>{CHATS[curChat].push({from:'in',text:'Entendi, obrigado pela informação! 👍'});renderChat();},1500);
+}
+renderChat();
+</script>
+</body></html>

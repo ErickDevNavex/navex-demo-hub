@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AutoSAC Social - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/autosac-v2.css">
+<style>.tag-shopee{background:rgba(238,77,45,.2);color:#ee4d2d}.review-badge{padding:4px 10px;border-radius:6px;font-size:.75rem;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--nebula);transition:all .2s}.review-badge.on{background:rgba(255,193,7,.15);border-color:#ffc107;color:#ffc107}.criticos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}.crit-card{padding:16px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.02)}.crit-card.quebra{border-left:4px solid var(--alert)}.crit-card.devolucao{border-left:4px solid #f59e0b}.crit-card.transportadora{border-left:4px solid var(--aur-violet)}.crit-card.endereco{border-left:4px solid #ffc107}.crit-resp{background:rgba(61,214,254,.04);border:1px dashed rgba(61,214,254,.2);padding:10px;border-radius:6px;margin:8px 0;font-size:.82rem;color:var(--starlight)}</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+
+<div class="app">
+<aside class="side">
+  <a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+  <div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:12px">Navegação</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <a href="#" onclick="showV('dash')" style="color:var(--starlight);font-weight:500">📋 Dashboard</a>
+      <a href="#" onclick="showV('criticos')">🚨 Casos Críticos</a>
+      <a href="#" onclick="showV('metrics')">📊 Métricas</a>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+  <div class="hbar">
+    <h1 class="htitle">🧡 AutoSAC Social <span style="font-size:.7rem;color:var(--nebula);font-weight:400">Shopee</span></h1>
+    <div class="ctrls">
+      <button class="toggle on" id="iaBtn" onclick="tIA()">🤖 IA: ON</button>
+      <button class="review-badge on" id="revBtn" onclick="tRev()">👁️ Review: ON</button>
+      <button class="crisis-btn" onclick="crise()">🚨 Crise</button>
+      <button class="toggle on" style="border-color:var(--ecyan);color:var(--ecyan)" onclick="procAll()">⚡ Processar Tudo</button>
+    </div>
+  </div>
+
+  <!-- DASH -->
+  <div id="vDash">
+    <div class="stats">
+      <div class="stat active" onclick="filt('all',this)"><div class="stat-n" id="s0">9</div><div class="stat-l">📋 Pendentes</div></div>
+      <div class="stat" onclick="filt('chat',this)"><div class="stat-n" id="s1">4</div><div class="stat-l">💬 Chat</div></div>
+      <div class="stat" onclick="filt('pre',this)"><div class="stat-n" id="s2">3</div><div class="stat-l">❓ Pré-Venda</div></div>
+      <div class="stat" onclick="filt('rev',this)"><div class="stat-n" id="s3">2</div><div class="stat-l">👁️ Revisão</div></div>
+      <div class="stat" onclick="filt('pausa',this)"><div class="stat-n" id="s4">2</div><div class="stat-l">⏸️ Pausas</div></div>
+      <div class="stat" onclick=""><div class="stat-n">67</div><div class="stat-l">📈 Hoje Total</div></div>
+      <div class="stat alert" onclick="showV('criticos')"><div class="stat-n">3</div><div class="stat-l">🚨 Quebra/Dev</div></div>
+      <div class="stat" onclick=""><div class="stat-n" style="color:var(--success)">58</div><div class="stat-l">✅ Enviados</div></div>
+    </div>
+    <div class="mbar"><span>✅ IA:<strong>52</strong></span><span>👤 Humano:<strong>6</strong></span><span>⏸️ Pausas:<strong>2</strong></span><span>📊 Taxa:<strong class="pct">87%</strong></span></div>
+    <div class="split">
+      <div class="col"><div class="col-title">Pendências</div><div id="tList"></div></div>
+      <div class="col"><div class="col-title">Histórico Recente</div><table class="htable"><thead><tr><th>Hora</th><th>Fonte</th><th>Resumo</th><th>Status</th></tr></thead><tbody id="hBody"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="detail" id="vDetail">
+    <div class="hbar"><a href="#" onclick="showV('dash')" style="color:var(--nebula);text-decoration:none">← Voltar</a></div>
+    <div class="detail-grid">
+      <div class="detail-card"><h4>💬 Mensagem</h4><div id="dMsg" class="tkt-msg" style="margin:0"></div><h4>🤖 Sugestão IA</h4><div class="tkt-ai"><div class="tkt-ai-text" id="dAI"></div></div><button class="btn sm" onclick="document.getElementById('rBox').value=document.getElementById('dAI').textContent">Usar Sugestão</button></div>
+      <div class="detail-card"><h4>📦 Produto</h4><div id="dProd" style="color:var(--nebula);font-size:.85rem"></div><h4>Sua Resposta</h4><textarea class="reply" id="rBox" placeholder="Digite..."></textarea><div style="display:flex;gap:8px"><button class="btn sm" onclick="sendR()">📤 Enviar</button><button class="btn ghost sm" onclick="skipR()">⏭️ Pular</button></div></div>
+    </div>
+  </div>
+
+  <!-- CRITICOS -->
+  <div id="vCriticos" style="display:none;flex-direction:column;gap:20px">
+    <div class="hbar"><a href="#" onclick="showV('dash')" style="color:var(--nebula);text-decoration:none">← Voltar</a><h2 style="color:var(--starlight);font-size:1.2rem;flex:1;margin-left:12px">🚨 Casos Críticos</h2></div>
+    <div class="criticos-grid">
+      <div class="crit-card quebra"><div class="tkt-top"><span class="tag tag-quebra">💥 PRODUTO QUEBRADO</span></div><div class="tkt-client">👤 Marcos V.</div><div class="tkt-product">📦 Organizador de Pia Inox</div><div class="tkt-msg">"Chegou todo amassado, parecendo que pisaram em cima"</div><div class="crit-resp">🤖 Cecília respondeu: "Sentimos muito pelo transtorno, Marcos! Por favor, nos envie fotos do produto e da embalagem para resolvermos o mais rápido possível."</div><button class="btn sm" onclick="this.textContent='✅ Resolvido';this.disabled=true">✅ Marcar Resolvido</button></div>
+      <div class="crit-card devolucao"><div class="tkt-top"><span class="tag tag-devolucao">📦 DEVOLUÇÃO</span></div><div class="tkt-client">👤 Patricia S.</div><div class="tkt-product">📦 Jogo de Toalhas Premium</div><div class="tkt-msg">"Quero devolver. A cor é completamente diferente da foto."</div><div class="crit-resp">🤖 Cecília respondeu: "Olá Patricia! Lamentamos a divergência. Já geramos o código de postagem reversa. Assim que recebermos, processamos o reembolso."</div><button class="btn sm" onclick="this.textContent='✅ Resolvido';this.disabled=true">✅ Marcar Resolvido</button></div>
+      <div class="crit-card transportadora"><div class="tkt-top"><span class="tag" style="background:rgba(122,92,255,.2);color:var(--aur-violet)">🚚 TRANSPORTADORA</span></div><div class="tkt-client">👤 Carlos A.</div><div class="tkt-product">📦 Mesa Lateral Dobrável</div><div class="tkt-msg">"Rastreio mostra devolvido ao remetente. Nunca recebi nada!"</div><div class="crit-resp">🤖 Cecília respondeu: "Carlos, lamentamos! Verificamos que houve tentativa de entrega sem sucesso. Já reenviamos com prioridade."</div><button class="btn sm" onclick="this.textContent='✅ Resolvido';this.disabled=true">✅ Marcar Resolvido</button></div>
+    </div>
+  </div>
+
+  <!-- METRICS -->
+  <div class="metrics-view" id="vMetrics">
+    <div class="m-grid">
+      <div class="m-card"><div class="stat-n" style="color:var(--ecyan)">412</div><div class="stat-l">Atendimentos (7d)</div></div>
+      <div class="m-card"><div class="stat-n" style="color:var(--success)">87%</div><div class="stat-l">Taxa Automação</div></div>
+      <div class="m-card"><div class="stat-n" style="color:var(--aur-violet)">9 min</div><div class="stat-l">Tempo Médio</div></div>
+    </div>
+    <div class="chart-placeholder"><h4 style="color:var(--starlight);margin:0">Volume por Dia</h4><div id="wChart"></div></div>
+  </div>
+</main>
+</div>
+
+<script>
+const T=[
+  {id:1,type:'chat',src:'WEBHOOK',class:'DUVIDA',pausa:false,review:false,client:'Ana C.',product:'Kit Potes Herméticos 10pç',msg:'Esses potes vão no microondas?',ai:'Olá Ana! Sim, nossos potes vão ao microondas sem a tampa. A tampa deve ser removida antes de aquecer. São livres de BPA!'},
+  {id:2,type:'chat',src:'DEEP_SCAN',class:'QUEBRA',pausa:true,review:false,client:'Roberto M.',product:'Escorredor de Louça Inox',msg:'Chegou com uma das hastes torta. Não encaixa direito.',ai:null},
+  {id:3,type:'pre',src:'WEBHOOK',class:'DUVIDA',pausa:false,review:true,client:'Juliana P.',product:'Lixeira Automática 12L',msg:'Funciona com pilha ou tomada?',ai:'Olá! A lixeira funciona com 4 pilhas AA (inclusas). Autonomia média de 6 meses com uso normal. Não precisa de tomada!'},
+  {id:4,type:'chat',src:'PENTE_FINO',class:'OUTROS',pausa:false,review:false,client:'Lucas T.',product:'Porta Temperos Giratório',msg:'Recebi direitinho! Muito obrigado, produto excelente.',ai:'Ficamos muito felizes com seu feedback, Lucas! 😊 Obrigada pela avaliação. Qualquer coisa, estamos aqui!'},
+  {id:5,type:'pre',src:'WEBHOOK',class:'DUVIDA',pausa:false,review:true,client:'Marina L.',product:'Organizador de Gaveta Extensível',msg:'Qual o tamanho mínimo e máximo quando estende?',ai:'Olá Marina! O organizador vai de 30cm (fechado) até 55cm (estendido). Altura: 8cm. Serve na maioria das gavetas padrão!'},
+  {id:6,type:'chat',src:'DEEP_SCAN',class:'DEVOLUCAO',pausa:true,review:false,client:'Pedro H.',product:'Tapete Antiderrapante Cozinha',msg:'O tapete encolheu depois de lavar. Quero devolver.',ai:null},
+  {id:7,type:'pre',src:'WEBHOOK',class:'DUVIDA',pausa:false,review:false,client:'Carla F.',product:'Dispenser Sabão Líquido',msg:'De que material é? É vidro ou plástico?',ai:'Olá Carla! O corpo é de vidro temperado e a bomba é de inox 304. Capacidade: 400ml. Muito elegante na bancada! 😊'},
+  {id:8,type:'chat',src:'WEBHOOK',class:'OUTROS',pausa:false,review:false,client:'André S.',product:'Suporte de Papel Toalha',msg:'Vocês vendem a refil do papel?',ai:'Olá André! Trabalhamos apenas com o suporte. Para refis, sugerimos marcas compatíveis disponíveis no marketplace. O suporte aceita rolos padrão (22-25cm).'},
+  {id:9,type:'chat',src:'PENTE_FINO',class:'ATRASO_CRITICO',pausa:true,review:false,client:'Fernanda G.',product:'Jogo Americano Silicone 4pç',msg:'15 dias e o rastreio não atualiza. Cadê meu pedido??',ai:null},
+];
+const H=[{h:'14:45',src:'WEBHOOK',res:'Dúvida medidas',st:'ENVIADO'},{h:'14:30',src:'DEEP_SCAN',res:'Status de entrega',st:'ENVIADO'},{h:'14:12',src:'WEBHOOK',res:'Cor disponível',st:'ENVIADO'},{h:'13:55',src:'PENTE_FINO',res:'Spam ignorado',st:'PULADO'}];
+let curF='all',sel=null;
+
+function filt(f,el){curF=f;document.querySelectorAll('.stat').forEach(s=>s.classList.remove('active'));if(el)el.classList.add('active');render();}
+function getF(){let t=T;if(curF==='chat')t=t.filter(x=>x.type==='chat');if(curF==='pre')t=t.filter(x=>x.type==='pre');if(curF==='rev')t=t.filter(x=>x.review);if(curF==='pausa')t=t.filter(x=>x.pausa);return t;}
+
+function render(){
+  document.getElementById('s0').textContent=T.length;
+  document.getElementById('s1').textContent=T.filter(x=>x.type==='chat').length;
+  document.getElementById('s2').textContent=T.filter(x=>x.type==='pre').length;
+  document.getElementById('s3').textContent=T.filter(x=>x.review).length;
+  document.getElementById('s4').textContent=T.filter(x=>x.pausa).length;
+  const f=getF();
+  document.getElementById('tList').innerHTML=f.map(t=>`
+    <div class="tkt ${t.pausa?'crit':''}">
+      <div class="tkt-top">
+        <span class="tag tag-shopee">Shopee</span>
+        <span class="tag ${t.type==='pre'?'tag-pre':'tag-pos'}">${t.type==='pre'?'PRÉ-VENDA':'CHAT'}</span>
+        <span class="tag tag-${t.class.toLowerCase()}">${t.pausa?'⏸️ ':''}${t.class}</span>
+        <span class="tag" style="background:rgba(255,255,255,.05);color:var(--orbit);font-size:.6rem">${t.src}</span>
+        ${t.review?'<span class="tag" style="background:rgba(255,193,7,.15);color:#ffc107">👁️ REVISÃO</span>':''}
+      </div>
+      <div class="tkt-client">👤 ${t.client}</div>
+      <div class="tkt-product">📦 ${t.product}</div>
+      <div class="tkt-msg">"${t.msg}"</div>
+      ${t.ai?`<div class="tkt-ai"><div class="tkt-ai-label">🤖 Sugestão Cecília:</div><div class="tkt-ai-text">${t.ai}</div></div>`:''}
+      <div class="tkt-actions">
+        <button onclick="openD(${t.id})">✍️ Atender</button>
+        ${t.ai?`<button class="primary" onclick="qSend(${t.id})">📤 Enviar</button>`:`<button onclick="tryAI(${t.id})">🤖 Tentar IA</button>`}
+        <button onclick="skip(${t.id})">⏭️ Pular</button>
+      </div>
+    </div>`).join('');
+  document.getElementById('hBody').innerHTML=H.map(h=>`<tr><td>${h.h}</td><td style="font-size:.7rem">${h.src}</td><td>${h.res}</td><td class="${h.st==='ENVIADO'?'st-ok':'st-skip'}">${h.st}</td></tr>`).join('');
+}
+
+function showV(v){
+  document.getElementById('vDash').style.display=v==='dash'?'':'none';
+  document.getElementById('vDetail').className=v==='detail'?'detail active':'detail';
+  document.getElementById('vCriticos').style.display=v==='criticos'?'flex':'none';
+  document.getElementById('vMetrics').className=v==='metrics'?'metrics-view active':'metrics-view';
+  if(v==='metrics')rMetrics();
+}
+
+function openD(id){sel=T.find(t=>t.id===id);if(!sel)return;document.getElementById('dMsg').textContent=sel.msg;document.getElementById('dProd').textContent=sel.product;document.getElementById('dAI').textContent=sel.ai||'Sem sugestão — atenda manualmente';document.getElementById('rBox').value='';showV('detail');}
+function sendR(){if(!sel)return;const i=T.findIndex(t=>t.id===sel.id);if(i>-1){T.splice(i,1);H.unshift({h:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),src:'MANUAL',res:sel.product.substring(0,28),st:'ENVIADO'});}showV('dash');render();}
+function skipR(){if(sel){skip(sel.id);showV('dash');}}
+function qSend(id){const i=T.findIndex(t=>t.id===id);if(i>-1){H.unshift({h:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),src:'IA_AUTO',res:T[i].product.substring(0,28),st:'ENVIADO'});T.splice(i,1);}render();}
+function skip(id){const i=T.findIndex(t=>t.id===id);if(i>-1){H.unshift({h:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),src:'-',res:'(Pulado)',st:'PULADO'});T.splice(i,1);}render();}
+function tryAI(id){const t=T.find(x=>x.id===id);if(t){t.ai='Olá! Analisamos sua situação e estamos verificando internamente. Em breve retornaremos com uma solução.';render();}}
+function tIA(){const b=document.getElementById('iaBtn');b.classList.toggle('on');b.classList.toggle('off');b.textContent=b.classList.contains('on')?'🤖 IA: ON':'🤖 IA: OFF';}
+function tRev(){const b=document.getElementById('revBtn');b.classList.toggle('on');b.textContent=b.classList.contains('on')?'👁️ Review: ON':'👁️ Review: OFF';}
+function crise(){if(!confirm('🚨 MODO CRISE\nLiga IA, desliga Review, processa tudo.\nConfirma?'))return;document.getElementById('iaBtn').classList.add('on');document.getElementById('iaBtn').classList.remove('off');document.getElementById('iaBtn').textContent='🤖 IA: ON';const s=T.filter(t=>t.ai);s.forEach(t=>{H.unshift({h:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),src:'CRISE',res:t.product.substring(0,25),st:'ENVIADO'});});for(let i=T.length-1;i>=0;i--)if(T[i].ai)T.splice(i,1);render();alert('✅ '+s.length+' respostas enviadas!');}
+function procAll(){const s=T.filter(t=>t.ai);s.forEach(t=>qSend(t.id));}
+function rMetrics(){const d=[{d:'Seg',v:58},{d:'Ter',v:72},{d:'Qua',v:45},{d:'Qui',v:80},{d:'Sex',v:65},{d:'Sáb',v:32},{d:'Dom',v:18}];const m=Math.max(...d.map(x=>x.v));document.getElementById('wChart').innerHTML=d.map(x=>`<div class="bar-row"><div class="bar-label">${x.d}</div><div class="bar-track"><div class="bar-fill-ia" style="width:${(x.v/m)*100}%"></div></div><div class="bar-val">${x.v}</div></div>`).join('');}
+render();
+</script>
+</body>
+</html>

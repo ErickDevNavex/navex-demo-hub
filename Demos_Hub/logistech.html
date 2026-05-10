@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LogisTech Audit - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}
+.side{width:240px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:24px}
+.side a{display:flex;align-items:center;gap:8px;color:var(--nebula);text-decoration:none;font-size:.85rem;transition:color .2s}.side a:hover{color:var(--starlight)}
+.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:20px}
+.htitle{font-family:var(--ff-acc);font-size:1.4rem;color:var(--starlight)}
+.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px}
+.tab{padding:8px 16px;border-radius:6px 6px 0 0;border:1px solid transparent;background:transparent;color:var(--nebula);cursor:pointer;font-size:.85rem;transition:all .2s}
+.tab.active{background:rgba(91,142,245,.1);border-color:var(--line);border-bottom:2px solid var(--eblue);color:var(--starlight)}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:16px;border-radius:10px;text-align:center}
+.kpi-n{font-size:1.5rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}
+.kpi-l{font-size:.75rem;color:var(--nebula);margin-top:4px}
+.kpi.alert .kpi-n{color:var(--alert)}
+.kpi.success .kpi-n{color:var(--success)}
+.upload-area{border:2px dashed var(--line);border-radius:10px;padding:40px;text-align:center;color:var(--nebula);cursor:pointer;transition:all .2s}
+.upload-area:hover{border-color:var(--eblue);background:rgba(91,142,245,.03)}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.tbl th{text-align:left;padding:10px 8px;color:var(--nebula);font-weight:500;border-bottom:1px solid var(--line);font-size:.75rem;text-transform:uppercase;position:sticky;top:0;background:var(--void)}
+.tbl td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--nebula)}
+.tbl tr:hover td{background:rgba(91,142,245,.03)}
+.div-ok{color:var(--success)}.div-err{color:var(--alert);font-weight:600}
+.panel{display:none;flex-direction:column;gap:20px}.panel.active{display:flex}
+.dispute-card{background:rgba(244,63,94,.04);border:1px solid rgba(244,63,94,.2);padding:16px;border-radius:10px}
+.dispute-card h4{color:var(--alert);margin:0 0 8px}
+.filter-bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.filter-bar select{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:6px;padding:6px 12px;color:var(--starlight);font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+
+<div class="app">
+<aside class="side">
+  <a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+  <div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:12px">Período</div><span style="color:var(--nebula);font-size:.8rem">Últimos 90 dias</span></div>
+</aside>
+<main class="main">
+  <div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">LogisTech Audit</h1><span style="color:var(--nebula);font-size:.8rem">Auditoria de Frete Marketplace</span></div>
+  <div class="tabs">
+    <button class="tab active" onclick="showTab('upload',this)">📤 Import</button>
+    <button class="tab" onclick="showTab('divergencias',this)">⚠️ Divergências</button>
+    <button class="tab" onclick="showTab('disputa',this)">📋 Disputa</button>
+    <button class="tab" onclick="showTab('base',this)">📦 Base Produtos</button>
+  </div>
+
+  <!-- UPLOAD -->
+  <div class="panel active" id="pUpload">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-n">1.247</div><div class="kpi-l">Envios Analisados</div></div>
+      <div class="kpi alert"><div class="kpi-n">89</div><div class="kpi-l">Divergências</div></div>
+      <div class="kpi success"><div class="kpi-n">R$ 4.832</div><div class="kpi-l">Valor Recuperável</div></div>
+      <div class="kpi"><div class="kpi-n">7.1%</div><div class="kpi-l">Taxa Divergência</div></div>
+    </div>
+    <div class="upload-area" onclick="document.getElementById('pUpload').querySelector('.upload-area').innerHTML='✅ Arquivo carregado: <strong>fatura_transportadora_maio.xlsx</strong> (1.247 registros)<br><br><button class=\'btn sm\' onclick=\'showTab(\"divergencias\",document.querySelectorAll(\".tab\")[1])\'>Analisar Divergências →</button>'">
+      📂 Arraste o XML/Excel da fatura da transportadora aqui<br><br><span style="font-size:.75rem">Formatos aceitos: .xlsx, .xml, .csv</span>
+    </div>
+  </div>
+
+  <!-- DIVERGENCIAS -->
+  <div class="panel" id="pDivergencias">
+    <div class="filter-bar">
+      <select onchange="filterDiv(this.value)"><option value="all">Todos os tipos</option><option value="peso">Peso cubado</option><option value="taxa">Taxa indevida</option><option value="comissao">Comissão</option></select>
+      <span style="color:var(--nebula);font-size:.8rem">89 divergências encontradas</span>
+    </div>
+    <div style="overflow-x:auto;max-height:400px;overflow-y:auto">
+      <table class="tbl" id="divTable">
+        <thead><tr><th>NF</th><th>SKU</th><th>Produto</th><th>Peso Real</th><th>Peso Cobrado</th><th>Diferença</th><th>Valor Cobrado</th><th>Valor Correto</th><th>Tipo</th><th>Status</th></tr></thead>
+        <tbody id="divBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DISPUTA -->
+  <div class="panel" id="pDisputa">
+    <div class="dispute-card">
+      <h4>📋 Relatório de Disputa Gerado</h4>
+      <p style="color:var(--nebula);font-size:.85rem;line-height:1.5">Foram identificadas <strong style="color:var(--alert)">89 divergências</strong> totalizando <strong style="color:var(--alert)">R$ 4.832,50</strong> em cobranças indevidas.<br>Principais problemas: Peso cubado incorreto (52 ocorrências), Taxas indevidas (24), Comissão divergente (13).</p>
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <button class="btn sm">📥 Exportar Excel</button>
+        <button class="btn ghost sm">📧 Enviar para Transportadora</button>
+      </div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>Tipo</th><th>Qtd</th><th>Valor Total</th><th>% do Total</th></tr></thead>
+      <tbody>
+        <tr><td>Peso cubado incorreto</td><td>52</td><td style="color:var(--alert)">R$ 2.890,00</td><td>59.8%</td></tr>
+        <tr><td>Taxas indevidas</td><td>24</td><td style="color:var(--alert)">R$ 1.442,50</td><td>29.8%</td></tr>
+        <tr><td>Comissão divergente</td><td>13</td><td style="color:var(--alert)">R$ 500,00</td><td>10.4%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BASE PRODUTOS -->
+  <div class="panel" id="pBase">
+    <div style="color:var(--nebula);font-size:.85rem;margin-bottom:8px">Base de produtos com peso real cadastrado para comparação com fatura</div>
+    <table class="tbl">
+      <thead><tr><th>SKU</th><th>Produto</th><th>Peso Real (kg)</th><th>Dimensões (cm)</th><th>Custo</th></tr></thead>
+      <tbody>
+        <tr><td style="font-family:var(--ff-mono);font-size:.75rem">SKU-001</td><td>Luminária Pendente 60cm</td><td>2.8</td><td>60x30x30</td><td>R$ 45,00</td></tr>
+        <tr><td style="font-family:var(--ff-mono);font-size:.75rem">SKU-002</td><td>Espelho Veneziano 80x60</td><td>5.2</td><td>82x62x8</td><td>R$ 72,00</td></tr>
+        <tr><td style="font-family:var(--ff-mono);font-size:.75rem">SKU-003</td><td>Mesa Centro Rústica</td><td>12.5</td><td>90x60x45</td><td>R$ 180,00</td></tr>
+        <tr><td style="font-family:var(--ff-mono);font-size:.75rem">SKU-004</td><td>Kit Nichos Hexagonais</td><td>3.1</td><td>40x40x15</td><td>R$ 55,00</td></tr>
+        <tr><td style="font-family:var(--ff-mono);font-size:.75rem">SKU-005</td><td>Prateleira Flutuante 120cm</td><td>4.7</td><td>122x20x4</td><td>R$ 38,00</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+</div>
+
+<script>
+const DIVS=[
+  {nf:'NF-4521',sku:'SKU-001',prod:'Luminária Pendente 60cm',pr:2.8,pc:4.2,vc:'R$ 32,50',vr:'R$ 22,10',tipo:'peso',st:'Pendente'},
+  {nf:'NF-4521',sku:'SKU-003',prod:'Mesa Centro Rústica',pr:12.5,pc:18.0,vc:'R$ 85,00',vr:'R$ 58,30',tipo:'peso',st:'Pendente'},
+  {nf:'NF-4522',sku:'SKU-002',prod:'Espelho Veneziano 80x60',pr:5.2,pc:5.2,vc:'R$ 48,90',vr:'R$ 35,20',tipo:'taxa',st:'Pendente'},
+  {nf:'NF-4523',sku:'SKU-005',prod:'Prateleira Flutuante 120cm',pr:4.7,pc:7.1,vc:'R$ 42,00',vr:'R$ 28,50',tipo:'peso',st:'Pendente'},
+  {nf:'NF-4524',sku:'SKU-004',prod:'Kit Nichos Hexagonais',pr:3.1,pc:3.1,vc:'R$ 28,00',vr:'R$ 22,00',tipo:'comissao',st:'Pendente'},
+  {nf:'NF-4525',sku:'SKU-001',prod:'Luminária Pendente 60cm',pr:2.8,pc:3.9,vc:'R$ 30,00',vr:'R$ 22,10',tipo:'peso',st:'Pendente'},
+  {nf:'NF-4526',sku:'SKU-003',prod:'Mesa Centro Rústica',pr:12.5,pc:12.5,vc:'R$ 72,00',vr:'R$ 58,30',tipo:'taxa',st:'Pendente'},
+];
+
+function renderDiv(filter){
+  const f=filter==='all'?DIVS:DIVS.filter(d=>d.tipo===filter);
+  document.getElementById('divBody').innerHTML=f.map(d=>`
+    <tr>
+      <td style="font-family:var(--ff-mono);font-size:.75rem">${d.nf}</td>
+      <td style="font-family:var(--ff-mono);font-size:.75rem">${d.sku}</td>
+      <td>${d.prod}</td>
+      <td>${d.pr}kg</td>
+      <td class="${d.pc>d.pr?'div-err':''}">${d.pc}kg</td>
+      <td class="${d.pc-d.pr>0?'div-err':'div-ok'}">${d.pc>d.pr?'+':''}${(d.pc-d.pr).toFixed(1)}kg</td>
+      <td>${d.vc}</td>
+      <td>${d.vr}</td>
+      <td><span style="font-size:.7rem;padding:2px 6px;border-radius:4px;${d.tipo==='peso'?'background:rgba(244,63,94,.15);color:var(--alert)':d.tipo==='taxa'?'background:rgba(255,193,7,.15);color:#ffc107':'background:rgba(122,92,255,.15);color:var(--aur-violet)'}">${d.tipo.toUpperCase()}</span></td>
+      <td><span style="font-size:.7rem;color:var(--orbit)">${d.st}</span></td>
+    </tr>
+  `).join('');
+}
+function filterDiv(v){renderDiv(v);}
+function showTab(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');}
+renderDiv('all');
+</script>
+</body>
+</html>

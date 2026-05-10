@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AutoSAC Marketplace - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/autosac-v2.css">
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar">
+  <div class="container topbar-inner" style="max-width:100%;padding:0 32px">
+    <a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a>
+    <span class="badge-demo">DEMO MODE</span>
+  </div>
+</header>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="side">
+    <a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+    <div>
+      <div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:12px">🏪 Loja Ativa</div>
+      <div class="stores" id="storeSelector">
+        <button class="store-btn active" data-store="alpha" onclick="selectStore(this)">Alpha Store</button>
+        <button class="store-btn" data-store="beta" onclick="selectStore(this)">Beta Decor</button>
+        <button class="store-btn" data-store="all" onclick="selectStore(this)">Todas</button>
+      </div>
+    </div>
+    <div>
+      <div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:12px">Navegação</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <a href="#" onclick="showView('dashboard')" style="color:var(--starlight);font-weight:500">📋 Dashboard</a>
+        <a href="#" onclick="showView('metrics')">📊 Métricas</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <!-- HEADER -->
+    <div class="hbar">
+      <h1 class="htitle">AutoSAC Marketplace</h1>
+      <div class="ctrls">
+        <button class="toggle on" id="iaToggle" onclick="toggleIA()">🤖 IA AUTO: ON</button>
+        <button class="crisis-btn" onclick="modoCrise()">🚨 CRISE</button>
+      </div>
+    </div>
+
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboardView">
+      <!-- Stats -->
+      <div class="stats" id="statCards">
+        <div class="stat active" onclick="filterTickets('all')"><div class="stat-n" id="sAll">12</div><div class="stat-l">📋 Pendentes</div></div>
+        <div class="stat" onclick="filterTickets('pre')"><div class="stat-n" id="sPre">5</div><div class="stat-l">❓ Pré-Venda</div></div>
+        <div class="stat" onclick="filterTickets('pos')"><div class="stat-n" id="sPos">7</div><div class="stat-l">📨 Pós-Venda</div></div>
+        <div class="stat alert" onclick="filterTickets('atencao')"><div class="stat-n" id="sAtt">3</div><div class="stat-l">🚨 Atenção Humana</div></div>
+      </div>
+
+      <!-- Day metrics -->
+      <div class="mbar">
+        <span>✅ IA Automático:<strong>45</strong></span>
+        <span>👤 Humano:<strong>8</strong></span>
+        <span>📊 Taxa IA:<strong class="pct">85%</strong></span>
+      </div>
+
+      <!-- Split: Pendencias + Historico -->
+      <div class="split">
+        <div class="col">
+          <div class="col-title">Pendências</div>
+          <div id="ticketList"></div>
+        </div>
+        <div class="col">
+          <div class="col-title">Histórico Recente</div>
+          <table class="htable"><thead><tr><th>Hora</th><th>Tipo</th><th>Resumo</th><th>Status</th></tr></thead><tbody id="histBody"></tbody></table>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAIL VIEW -->
+    <div class="detail" id="detailView">
+      <div class="hbar"><a href="#" onclick="showView('dashboard')" style="color:var(--nebula);text-decoration:none">← Voltar às pendências</a></div>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <h4>💬 Mensagem do Cliente</h4>
+          <div id="detMsg" class="tkt-msg" style="margin:0"></div>
+          <h4>📜 Histórico da Conversa</h4>
+          <div class="chat-history" id="detChat"></div>
+          <h4>🤖 Sugestão da IA</h4>
+          <div class="tkt-ai"><div class="tkt-ai-text" id="detAI"></div></div>
+          <button class="btn sm" onclick="useSuggestion()">Usar Sugestão</button>
+        </div>
+        <div class="detail-card">
+          <h4>📦 Produto</h4>
+          <div id="detProduct" style="color:var(--nebula);font-size:.85rem"></div>
+          <h4>📝 Respostas Rápidas</h4>
+          <div class="templates">
+            <button class="tmpl" onclick="useTemplate('frete')">🚚 Frete</button>
+            <button class="tmpl" onclick="useTemplate('prazo')">📦 Prazo</button>
+            <button class="tmpl" onclick="useTemplate('troca')">🔄 Troca</button>
+            <button class="tmpl" onclick="useTemplate('nf')">📋 NF</button>
+          </div>
+          <h4>Sua Resposta</h4>
+          <textarea class="reply" id="replyBox" placeholder="Digite sua resposta..."></textarea>
+          <div style="display:flex;gap:8px">
+            <button class="btn sm" onclick="sendReply()">📤 Enviar Resposta</button>
+            <button class="btn ghost sm" onclick="skipTicket()">⏭️ Pular</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- METRICS VIEW -->
+    <div class="metrics-view" id="metricsView">
+      <div class="m-grid">
+        <div class="m-card"><div class="stat-n" style="color:var(--ecyan)">372</div><div class="stat-l">Atendimentos (7 dias)</div></div>
+        <div class="m-card"><div class="stat-n" style="color:var(--success)">84%</div><div class="stat-l">Taxa de Automação</div></div>
+        <div class="m-card"><div class="stat-n" style="color:var(--aur-violet)">12 min</div><div class="stat-l">Tempo Médio Resposta</div></div>
+      </div>
+      <div class="chart-placeholder">
+        <h4 style="color:var(--starlight);margin:0">Atendimentos por Dia (Últimos 7 dias)</h4>
+        <div id="weekChart"></div>
+      </div>
+      <div class="chart-placeholder">
+        <h4 style="color:var(--starlight);margin:0">Distribuição por Hora (Hoje)</h4>
+        <div id="hourChart"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+const TICKETS = [
+  {id:1,store:'alpha',type:'pos',class:'QUEBRA',atencao:true,client:'Roberto M.',product:'Luminária LED Pendente 60cm',msg:'Boa tarde, a luminária chegou com a cúpula toda trincada. O entregador jogou o pacote no chão. Estou muito insatisfeito.',history:[{from:'client',text:'Olá, meu produto chegou danificado'},{from:'seller',text:'Olá Roberto! Sentimos muito. Pode nos enviar fotos?'},{from:'client',text:'A luminária chegou com a cúpula toda trincada. O entregador jogou o pacote no chão.'}],ai:'Lamentamos muito pelo ocorrido, Roberto! Por favor, nos envie fotos do produto danificado e da embalagem. Vamos resolver isso o mais rápido possível, providenciando o reenvio imediato.',fase:'INVESTIGANDO'},
+  {id:2,store:'alpha',type:'pre',class:'DUVIDA',atencao:false,client:'Camila S.',product:'Espelho Decorativo Veneziano 80x60',msg:'Esse espelho é à prova d\'água? Posso colocar no banheiro?',history:[],ai:'Olá Camila! O espelho possui acabamento resistente à umidade, podendo ser instalado em banheiros com ventilação adequada. Evitar contato direto com jatos de água. Medidas: 80x60cm, peso 4.2kg.',fase:null},
+  {id:3,store:'beta',type:'pos',class:'DEVOLUCAO',atencao:true,client:'Fernando L.',product:'Mesa de Centro Rústica',msg:'Quero devolver. A cor da mesa não é igual à foto do anúncio. Veio muito mais escura.',history:[{from:'client',text:'A cor não confere com o anúncio'},{from:'client',text:'Quero devolver. A cor da mesa não é igual à foto.'}],ai:'Olá Fernando! Sentimos muito pela diferença. Variações de tom podem ocorrer por ser madeira natural. Gostaria de ver fotos para comparar? Caso prefira devolver, já geramos o código de postagem reversa.',fase:'HANDOVER'},
+  {id:4,store:'alpha',type:'pre',class:'DUVIDA',atencao:false,client:'Ana Paula',product:'Prateleira Flutuante 120cm',msg:'Qual o peso máximo que suporta? E vem com parafuso pra drywall?',history:[],ai:'Olá Ana! A prateleira suporta até 15kg distribuídos. Acompanha kit de fixação completo (buchas e parafusos para alvenaria). Para drywall, recomendamos buchas específicas tipo toggle bolt. Qualquer dúvida, estamos aqui!',fase:null},
+  {id:5,store:'alpha',type:'pos',class:'ATRASO_CRITICO',atencao:true,client:'Marcos T.',product:'Kit Nichos Hexagonais (5 peças)',msg:'Já fazem 20 dias e nada do meu pedido. Rastreio sem atualização há 10 dias. Se não chegar vou abrir reclamação.',history:[{from:'client',text:'Meu pedido está muito atrasado'},{from:'seller',text:'Olá Marcos! Vou verificar o rastreio para você.'},{from:'client',text:'Já fazem 20 dias e o rastreio parou há 10 dias. Vou abrir reclamação.'}],ai:'Marcos, entendo sua frustração. Acabei de verificar e seu pacote está retido na unidade de distribuição desde dia 02. Já acionamos a transportadora para priorizar a entrega. Prazo atualizado: 2 dias úteis.',fase:'INVESTIGANDO'},
+  {id:6,store:'beta',type:'pre',class:'OUTROS',atencao:false,client:'Julia R.',product:'Vaso Decorativo Cerâmica',msg:'Boa noite! Lindo esse vaso. Tem na cor terracota?',history:[],ai:'Olá Julia! Obrigada pelo interesse! 😊 Temos sim na cor terracota. É um dos nossos best-sellers! Medidas: 30cm altura, 18cm diâmetro. Qualquer dúvida, estamos à disposição!',fase:null},
+  {id:7,store:'alpha',type:'pos',class:'DUVIDA',atencao:false,client:'Paulo H.',product:'Luminária de Mesa Articulada',msg:'Recebi certinho, obrigado! Mas como troco a lâmpada? Tem algum vídeo?',history:[{from:'client',text:'Recebi o produto! Mas como troco a lâmpada?'}],ai:'Que bom que chegou bem, Paulo! 🎉 Para trocar a lâmpada: gire a cúpula no sentido anti-horário, remova a lâmpada antiga e coloque a nova (E27, máx 40W LED). Qualquer dúvida, estamos aqui!',fase:null},
+];
+
+const HISTORY = [
+  {hora:'14:32',type:'PÓS',resumo:'Rastreio solicitado',status:'ENVIADO'},
+  {hora:'14:28',type:'PRÉ',resumo:'Dúvida sobre medidas',status:'ENVIADO'},
+  {hora:'14:15',type:'PÓS',resumo:'Confirmação de entrega',status:'ENVIADO'},
+  {hora:'13:50',type:'PRÉ',resumo:'Disponibilidade cor',status:'ENVIADO'},
+  {hora:'13:22',type:'PÓS',resumo:'Reclamação ignorada (spam)',status:'PULADO'},
+];
+
+let currentFilter='all', currentStore='alpha', selectedTicket=null;
+
+function selectStore(el){
+  document.querySelectorAll('.store-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  currentStore=el.dataset.store;
+  renderAll();
+}
+
+function filterTickets(f){
+  currentFilter=f;
+  document.querySelectorAll('.stat').forEach(s=>s.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  renderTickets();
+}
+
+function getFiltered(){
+  let t=TICKETS;
+  if(currentStore!=='all') t=t.filter(x=>x.store===currentStore);
+  if(currentFilter==='pre') t=t.filter(x=>x.type==='pre');
+  if(currentFilter==='pos') t=t.filter(x=>x.type==='pos');
+  if(currentFilter==='atencao') t=t.filter(x=>x.atencao);
+  return t;
+}
+
+function renderTickets(){
+  const list=document.getElementById('ticketList');
+  const filtered=getFiltered();
+  list.innerHTML=filtered.map(t=>`
+    <div class="tkt ${t.atencao?'crit':''}">
+      <div class="tkt-top">
+        <span class="tag tag-loja">${t.store==='alpha'?'Alpha Store':'Beta Decor'}</span>
+        <span class="tag ${t.type==='pre'?'tag-pre':'tag-pos'}">${t.type==='pre'?'PRÉ-VENDA':'PÓS-VENDA'}</span>
+        <span class="tag tag-${t.class.toLowerCase()}">${t.atencao?'🚨 ':''}${t.class}</span>
+        ${t.fase?`<span class="tag" style="background:rgba(255,255,255,.06);color:var(--orbit)">${t.fase}</span>`:''}
+      </div>
+      <div class="tkt-client">👤 ${t.client}</div>
+      <div class="tkt-product">📦 ${t.product}</div>
+      <div class="tkt-msg">"${t.msg}"</div>
+      ${t.ai?`<div class="tkt-ai"><div class="tkt-ai-label">✨ Sugestão IA:</div><div class="tkt-ai-text">${t.ai}</div></div>`:''}
+      <div class="tkt-actions">
+        <button onclick="openDetail(${t.id})">🎧 Atender</button>
+        ${t.ai?`<button class="primary" onclick="quickSend(${t.id})">📤 Enviar</button>`:`<button onclick="tryIA(${t.id})">🤖 Tentar IA</button>`}
+        <button onclick="skipFromList(${t.id})">⏭️ Pular</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function updateStats(){
+  const s=currentStore==='all'?TICKETS:TICKETS.filter(x=>x.store===currentStore);
+  document.getElementById('sAll').textContent=s.length;
+  document.getElementById('sPre').textContent=s.filter(x=>x.type==='pre').length;
+  document.getElementById('sPos').textContent=s.filter(x=>x.type==='pos').length;
+  document.getElementById('sAtt').textContent=s.filter(x=>x.atencao).length;
+}
+
+function renderHistory(){
+  document.getElementById('histBody').innerHTML=HISTORY.map(h=>`
+    <tr><td>${h.hora}</td><td>${h.type}</td><td>${h.resumo}</td><td class="${h.status==='ENVIADO'?'st-ok':'st-skip'}">${h.status}</td></tr>
+  `).join('');
+}
+
+function renderAll(){updateStats();renderTickets();renderHistory();}
+
+function showView(v){
+  document.getElementById('dashboardView').style.display=v==='dashboard'?'':'none';
+  document.getElementById('detailView').className=v==='detail'?'detail active':'detail';
+  document.getElementById('metricsView').className=v==='metrics'?'metrics-view active':'metrics-view';
+  if(v==='metrics') renderMetrics();
+}
+
+function openDetail(id){
+  selectedTicket=TICKETS.find(t=>t.id===id);
+  if(!selectedTicket) return;
+  document.getElementById('detMsg').textContent=selectedTicket.msg;
+  document.getElementById('detProduct').textContent=selectedTicket.product;
+  document.getElementById('detAI').textContent=selectedTicket.ai||'Sem sugestão disponível';
+  document.getElementById('replyBox').value='';
+  const chat=document.getElementById('detChat');
+  chat.innerHTML=selectedTicket.history.map(m=>`<div class="ch-msg ${m.from==='client'?'ch-client':'ch-seller'}">${m.text}</div>`).join('')||'<span style="color:var(--nebula);font-size:.8rem">Sem histórico anterior</span>';
+  showView('detail');
+}
+
+function useSuggestion(){if(selectedTicket) document.getElementById('replyBox').value=selectedTicket.ai||'';}
+
+function useTemplate(t){
+  const templates={frete:'O frete é calculado automaticamente pelo marketplace. O prazo de entrega aparece no anúncio conforme seu CEP.',prazo:'Seu pedido será preparado e postado em até 2 dias úteis. O prazo de entrega depende da região.',troca:'Para solicitar troca ou devolução, acesse "Minhas compras" no marketplace e selecione "Devolver/Trocar". Enviaremos o código de postagem reversa.',nf:'A nota fiscal é enviada automaticamente para o e-mail cadastrado em até 24h após o envio do pedido.'};
+  document.getElementById('replyBox').value=templates[t]||'';
+}
+
+function sendReply(){
+  if(!selectedTicket) return;
+  const idx=TICKETS.findIndex(t=>t.id===selectedTicket.id);
+  if(idx>-1){TICKETS.splice(idx,1);HISTORY.unshift({hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),type:selectedTicket.type==='pre'?'PRÉ':'PÓS',resumo:selectedTicket.product.substring(0,30)+'...',status:'ENVIADO'});}
+  showView('dashboard');renderAll();
+}
+
+function quickSend(id){
+  const idx=TICKETS.findIndex(t=>t.id===id);
+  if(idx>-1){const t=TICKETS[idx];TICKETS.splice(idx,1);HISTORY.unshift({hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),type:t.type==='pre'?'PRÉ':'PÓS',resumo:t.product.substring(0,30)+'...',status:'ENVIADO'});}
+  renderAll();
+}
+
+function skipFromList(id){
+  const idx=TICKETS.findIndex(t=>t.id===id);
+  if(idx>-1){const t=TICKETS[idx];TICKETS.splice(idx,1);HISTORY.unshift({hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),type:t.type==='pre'?'PRÉ':'PÓS',resumo:'(Pulado) '+t.product.substring(0,25),status:'PULADO'});}
+  renderAll();
+}
+
+function skipTicket(){if(selectedTicket){skipFromList(selectedTicket.id);showView('dashboard');}}
+
+function tryIA(id){
+  const t=TICKETS.find(x=>x.id===id);
+  if(t){t.ai='[IA Gerou] Olá! Analisamos sua mensagem e estamos verificando internamente. Retornaremos em breve com uma solução.';renderTickets();}
+}
+
+function toggleIA(){
+  const btn=document.getElementById('iaToggle');
+  if(btn.classList.contains('on')){btn.classList.remove('on');btn.classList.add('off');btn.textContent='🤖 IA AUTO: OFF';}
+  else{btn.classList.remove('off');btn.classList.add('on');btn.textContent='🤖 IA AUTO: ON';}
+}
+
+function modoCrise(){
+  if(!confirm('🚨 MODO CRISE\n\nIsso vai:\n1. Ligar IA Automática\n2. Enviar TODAS as sugestões pendentes\n3. Varrer mensagens perdidas\n\nConfirma?')) return;
+  const btn=document.getElementById('iaToggle');btn.classList.remove('off');btn.classList.add('on');btn.textContent='🤖 IA AUTO: ON';
+  const toSend=TICKETS.filter(t=>t.ai);
+  toSend.forEach(t=>{HISTORY.unshift({hora:new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),type:t.type==='pre'?'PRÉ':'PÓS',resumo:'🚨 '+t.product.substring(0,25),status:'ENVIADO'});});
+  TICKETS.length=0;TICKETS.push(...TICKETS.filter(t=>!t.ai));
+  renderAll();alert('✅ Modo Crise executado!\n'+toSend.length+' respostas enviadas automaticamente.');
+}
+
+function renderMetrics(){
+  const days=[{d:'Seg',ia:42,hu:6},{d:'Ter',ia:55,hu:8},{d:'Qua',ia:38,hu:5},{d:'Qui',ia:62,hu:10},{d:'Sex',ia:70,hu:12},{d:'Sáb',ia:28,hu:3},{d:'Dom',ia:15,hu:1}];
+  const max=Math.max(...days.map(x=>x.ia+x.hu));
+  document.getElementById('weekChart').innerHTML=days.map(d=>`
+    <div class="bar-row">
+      <div class="bar-label">${d.d}</div>
+      <div class="bar-track">
+        <div class="bar-fill-ia" style="width:${(d.ia/max)*100}%"></div>
+        <div class="bar-fill-hu" style="width:${(d.hu/max)*100}%"></div>
+      </div>
+      <div class="bar-val">${d.ia+d.hu}</div>
+    </div>
+  `).join('')+'<div style="display:flex;gap:16px;font-size:.75rem;color:var(--nebula);margin-top:8px"><span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--ecyan);border-radius:2px"></span>IA</span><span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--aur-violet);border-radius:2px"></span>Humano</span></div>';
+  const hours=[{h:'08h',v:8},{h:'09h',v:15},{h:'10h',v:22},{h:'11h',v:18},{h:'12h',v:10},{h:'13h',v:14},{h:'14h',v:25},{h:'15h',v:20},{h:'16h',v:16},{h:'17h',v:12}];
+  const hmax=Math.max(...hours.map(x=>x.v));
+  document.getElementById('hourChart').innerHTML=hours.map(h=>`
+    <div class="bar-row"><div class="bar-label">${h.h}</div><div class="bar-track"><div class="bar-fill-ia" style="width:${(h.v/hmax)*100}%"></div></div><div class="bar-val">${h.v}</div></div>
+  `).join('');
+}
+
+renderAll();
+</script>
+</body>
+</html>

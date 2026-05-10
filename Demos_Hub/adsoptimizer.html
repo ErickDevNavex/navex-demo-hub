@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>AdsOptimizer - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:240px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:24px}.side a{color:var(--nebula);text-decoration:none;font-size:.85rem}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:20px}
+.htitle{font-family:var(--ff-acc);font-size:1.4rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px}.tab{padding:8px 16px;border-radius:6px 6px 0 0;border:1px solid transparent;background:transparent;color:var(--nebula);cursor:pointer;font-size:.85rem}.tab.active{background:rgba(91,142,245,.1);border-color:var(--line);border-bottom:2px solid var(--eblue);color:var(--starlight)}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:14px;border-radius:10px;text-align:center}.kpi-n{font-size:1.3rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}.kpi-l{font-size:.7rem;color:var(--nebula);margin-top:4px}
+.camp-grid{display:flex;flex-direction:column;gap:12px}.camp{padding:16px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02);display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr auto;gap:16px;align-items:center;font-size:.85rem}.camp:hover{border-color:var(--eblue)}
+.camp-name{color:var(--starlight);font-weight:500}.camp-val{color:var(--nebula);text-align:center}.camp-val strong{display:block;color:var(--starlight);font-size:1rem}
+.camp-status{padding:3px 8px;border-radius:4px;font-size:.7rem;font-weight:600;text-align:center}
+.st-active{background:rgba(34,197,94,.15);color:var(--success)}.st-paused{background:rgba(255,193,7,.15);color:#ffc107}.st-bad{background:rgba(244,63,94,.15);color:var(--alert)}
+.ai-insight{background:rgba(61,214,254,.04);border:1px solid rgba(61,214,254,.2);padding:14px;border-radius:8px;margin-top:8px;font-size:.82rem;color:var(--starlight);line-height:1.5}
+.panel{display:none;flex-direction:column;gap:16px}.panel.active{display:flex}
+.kw-table{width:100%;border-collapse:collapse;font-size:.8rem}.kw-table th{text-align:left;padding:8px;color:var(--nebula);font-weight:500;border-bottom:1px solid var(--line);font-size:.72rem;text-transform:uppercase}.kw-table td{padding:8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--nebula)}
+.action-tag{font-size:.65rem;padding:2px 6px;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side"><a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:8px">Lojas</div><div style="font-size:.8rem;color:var(--nebula);line-height:1.8"><div style="color:var(--starlight);font-weight:500">● Alpha Store</div><div>● Beta Decor</div><div>● Gamma Home</div></div></div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">AdsOptimizer</h1><span style="color:var(--nebula);font-size:.8rem">Otimização de Campanhas Marketplace + IA</span></div>
+<div class="tabs">
+<button class="tab active" onclick="sTab('dash',this)">📊 Dashboard</button>
+<button class="tab" onclick="sTab('camp',this)">📋 Campanhas</button>
+<button class="tab" onclick="sTab('kw',this)">🔑 Palavras-Chave</button>
+<button class="tab" onclick="sTab('ia',this)">🤖 Análise IA</button>
+</div>
+
+<div class="panel active" id="pDash">
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-n" style="color:var(--ecyan)">R$ 12.450</div><div class="kpi-l">Investido (30d)</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">R$ 89.200</div><div class="kpi-l">Faturamento Ads</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">7.2x</div><div class="kpi-l">ROAS</div></div>
+<div class="kpi"><div class="kpi-n" style="color:#ffc107">14.0%</div><div class="kpi-l">ACOS</div></div>
+<div class="kpi"><div class="kpi-n">2.8%</div><div class="kpi-l">CTR Médio</div></div>
+</div>
+<div class="ai-insight">🤖 <strong>Insight IA:</strong> Sua campanha "Espelhos Premium" tem ACOS de 22% — acima da meta de 15%. Sugestão: pausar 3 palavras-chave com ACOS > 40% e redistribuir budget para "Luminárias LED" que tem ROAS de 12x.</div>
+</div>
+
+<div class="panel" id="pCamp">
+<div class="camp"><div class="camp-name">Luminárias LED - Exata</div><div class="camp-val"><strong style="color:var(--success)">12.1x</strong>ROAS</div><div class="camp-val"><strong>8.3%</strong>ACOS</div><div class="camp-val"><strong>R$ 2.100</strong>Budget</div><div class="camp-val"><strong>3.4%</strong>CTR</div><div class="camp-status st-active">ATIVA</div></div>
+<div class="camp"><div class="camp-name">Espelhos Premium - Ampla</div><div class="camp-val"><strong style="color:var(--alert)">4.5x</strong>ROAS</div><div class="camp-val"><strong style="color:var(--alert)">22.0%</strong>ACOS</div><div class="camp-val"><strong>R$ 3.800</strong>Budget</div><div class="camp-val"><strong>1.9%</strong>CTR</div><div class="camp-status st-bad">⚠️ ALTO ACOS</div></div>
+<div class="camp"><div class="camp-name">Mesa Rústica - Frase</div><div class="camp-val"><strong>8.0x</strong>ROAS</div><div class="camp-val"><strong>12.5%</strong>ACOS</div><div class="camp-val"><strong>R$ 1.500</strong>Budget</div><div class="camp-val"><strong>2.6%</strong>CTR</div><div class="camp-status st-active">ATIVA</div></div>
+<div class="camp"><div class="camp-name">Nichos Decorativos - Auto</div><div class="camp-val"><strong style="color:var(--success)">9.8x</strong>ROAS</div><div class="camp-val"><strong>10.2%</strong>ACOS</div><div class="camp-val"><strong>R$ 2.200</strong>Budget</div><div class="camp-val"><strong>3.1%</strong>CTR</div><div class="camp-status st-active">ATIVA</div></div>
+<div class="camp"><div class="camp-name">Prateleiras - Exata</div><div class="camp-val"><strong>6.2x</strong>ROAS</div><div class="camp-val"><strong>16.1%</strong>ACOS</div><div class="camp-val"><strong>R$ 1.800</strong>Budget</div><div class="camp-val"><strong>2.2%</strong>CTR</div><div class="camp-status st-paused">PAUSADA</div></div>
+</div>
+
+<div class="panel" id="pKw">
+<table class="kw-table"><thead><tr><th>Palavra-Chave</th><th>Campanha</th><th>Impressões</th><th>Cliques</th><th>CTR</th><th>ACOS</th><th>Vendas</th><th>Ação IA</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--starlight)">luminária pendente led</td><td>Luminárias LED</td><td>45.200</td><td>1.582</td><td style="color:var(--success)">3.5%</td><td style="color:var(--success)">6.2%</td><td>R$ 12.800</td><td><span class="action-tag" style="background:rgba(34,197,94,.15);color:var(--success)">↑ AUMENTAR BID</span></td></tr>
+<tr><td style="color:var(--starlight)">espelho veneziano grande</td><td>Espelhos Premium</td><td>28.100</td><td>534</td><td>1.9%</td><td style="color:var(--alert)">42.0%</td><td>R$ 1.200</td><td><span class="action-tag" style="background:rgba(244,63,94,.15);color:var(--alert)">⏸️ PAUSAR</span></td></tr>
+<tr><td style="color:var(--starlight)">mesa centro madeira</td><td>Mesa Rústica</td><td>32.500</td><td>845</td><td>2.6%</td><td>12.5%</td><td>R$ 6.760</td><td><span class="action-tag" style="background:rgba(255,255,255,.1);color:var(--nebula)">→ MANTER</span></td></tr>
+<tr><td style="color:var(--starlight)">espelho banheiro led</td><td>Espelhos Premium</td><td>18.900</td><td>283</td><td>1.5%</td><td style="color:var(--alert)">38.0%</td><td>R$ 890</td><td><span class="action-tag" style="background:rgba(244,63,94,.15);color:var(--alert)">⏸️ PAUSAR</span></td></tr>
+<tr><td style="color:var(--starlight)">nicho hexagonal mdf</td><td>Nichos Decorativos</td><td>22.300</td><td>691</td><td style="color:var(--success)">3.1%</td><td style="color:var(--success)">8.5%</td><td>R$ 8.120</td><td><span class="action-tag" style="background:rgba(34,197,94,.15);color:var(--success)">↑ AUMENTAR BID</span></td></tr>
+<tr><td style="color:var(--starlight)">decoração sala</td><td>Nichos Decorativos</td><td>85.200</td><td>1.278</td><td>1.5%</td><td>18.0%</td><td>R$ 4.260</td><td><span class="action-tag" style="background:rgba(255,193,7,.15);color:#ffc107">↓ REDUZIR BID</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="panel" id="pIa">
+<h3 style="color:var(--starlight);font-size:1rem">🤖 Análise Gemini — Campanhas Alpha Store</h3>
+<div class="ai-insight"><strong>Raciocínio Estratégico:</strong><br><br>1. A campanha "Espelhos Premium" está consumindo 30% do budget total mas gerando apenas 15% do faturamento. O ACOS de 22% indica que as palavras-chave amplas estão atraindo cliques de baixa conversão.<br><br>2. As palavras "espelho veneziano grande" e "espelho banheiro led" têm ACOS acima de 38% — cada venda custa mais do que o necessário. Recomendo pausar imediatamente.<br><br>3. "Luminárias LED" é a campanha estrela: ROAS de 12x com budget de apenas R$ 2.100. Aumentar budget em 50% deve gerar ~R$ 12.000 adicionais em vendas.<br><br>4. "Nichos Decorativos" em modo automático está performando bem (ROAS 9.8x). Manter e monitorar.<br><br><strong>Ações sugeridas:</strong><br>✅ Pausar 2 palavras-chave de Espelhos (economia estimada: R$ 1.200/mês)<br>✅ Redistribuir R$ 800 para Luminárias LED<br>✅ Criar campanha exata para "espelho decorativo sala" (oportunidade detectada)<br>✅ ROAS projetado após otimização: 9.1x (vs 7.2x atual)</div>
+</div>
+
+</main></div>
+<script>
+function sTab(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+</script>
+</body></html>

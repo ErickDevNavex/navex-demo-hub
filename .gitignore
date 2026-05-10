@@ -1,0 +1,42 @@
+# === Sistemas originais (muito pesado, ~3.7GB) ===
+Sistemas/
+
+# === Renatao Agent (interno) ===
+.renatao/
+
+# === Arquivos de sistema ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === IDEs & editores ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === Node (caso futuro) ===
+node_modules/
+npm-debug.log*
+
+# === Python (sistemas legados) ===
+__pycache__/
+*.pyc
+*.pyo
+.env
+.env.*
+venv/
+*.egg-info/
+
+# === Credenciais / sensíveis ===
+*.key
+*.pem
+*.p12
+credentials.json
+token.json
+
+# === OS gerados ===
+*.log
+*.tmp
+*.bak

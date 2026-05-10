@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ListingAudit Pro - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}
+.side{width:240px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:24px}
+.side a{color:var(--nebula);text-decoration:none;font-size:.85rem;transition:color .2s}.side a:hover{color:var(--starlight)}
+.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:20px}
+.htitle{font-family:var(--ff-acc);font-size:1.4rem;color:var(--starlight)}
+.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.listing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.listing{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s}
+.listing:hover{border-color:var(--eblue);transform:translateY(-2px)}
+.listing-img{height:160px;background:linear-gradient(135deg,rgba(91,142,245,.1),rgba(122,92,255,.1));display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative}
+.listing-nota{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);padding:4px 10px;border-radius:6px;font-weight:700;font-size:.9rem}
+.nota-high{color:var(--success)}.nota-mid{color:#ffc107}.nota-low{color:var(--alert)}
+.listing-body{padding:14px}
+.listing-title{color:var(--starlight);font-size:.85rem;font-weight:500;margin-bottom:6px;line-height:1.3}
+.listing-price{color:var(--ecyan);font-weight:600;font-size:1rem;margin-bottom:8px}
+.listing-tags{display:flex;gap:4px;flex-wrap:wrap}
+.ltag{font-size:.6rem;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.06);color:var(--nebula)}
+.ltag.warn{background:rgba(244,63,94,.15);color:var(--alert)}
+.ltag.ok{background:rgba(34,197,94,.15);color:var(--success)}
+
+/* Detail */
+.detail-panel{display:none;flex-direction:column;gap:20px}.detail-panel.active{display:flex}
+.audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.audit-card{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:20px;border-radius:10px}
+.audit-card h4{color:var(--starlight);font-size:.9rem;margin:0 0 12px}
+.score-ring{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:2rem;font-weight:800;font-family:var(--ff-acc)}
+.seo-item{padding:8px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center;font-size:.82rem}
+.seo-item:last-child{border:none}
+.health-alert{padding:8px 12px;background:rgba(244,63,94,.08);border:1px solid rgba(244,63,94,.2);border-radius:6px;font-size:.82rem;color:var(--alert);margin-bottom:8px}
+.health-ok{padding:8px 12px;background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:6px;font-size:.82rem;color:var(--success);margin-bottom:8px}
+.aida-block{background:rgba(61,214,254,.03);border:1px solid rgba(61,214,254,.15);padding:16px;border-radius:8px;font-size:.85rem;color:var(--starlight);line-height:1.6;white-space:pre-line}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+
+<div class="app">
+<aside class="side">
+  <a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+  <div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:12px">Loja</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span style="color:var(--starlight);font-size:.82rem;font-weight:500">Alpha Store</span>
+      <span style="color:var(--nebula);font-size:.75rem">847 anúncios extraídos</span>
+    </div>
+  </div>
+  <div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:8px">Resumo Auditoria</div>
+    <div style="display:flex;flex-direction:column;gap:6px;font-size:.8rem">
+      <span style="color:var(--success)">✅ 612 nota ≥ 8.0</span>
+      <span style="color:#ffc107">⚠️ 180 nota 5-8</span>
+      <span style="color:var(--alert)">🔴 55 nota < 5</span>
+    </div>
+  </div>
+</aside>
+<main class="main">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <h1 class="htitle">ListingAudit Pro</h1>
+    <span style="color:var(--nebula);font-size:.8rem">Auditoria IA Multimodal de Anúncios</span>
+  </div>
+
+  <!-- GRID -->
+  <div id="gridView">
+    <div style="display:flex;gap:12px;margin-bottom:16px">
+      <button class="btn sm" onclick="filterN('all')">Todos</button>
+      <button class="btn ghost sm" onclick="filterN('low')">🔴 Críticos</button>
+      <button class="btn ghost sm" onclick="filterN('mid')">⚠️ Melhoráveis</button>
+    </div>
+    <div class="listing-grid" id="listGrid"></div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="detail-panel" id="detView">
+    <a href="#" onclick="showGrid()" style="color:var(--nebula);text-decoration:none;font-size:.85rem">← Voltar à lista</a>
+    <div class="audit-grid">
+      <div class="audit-card" style="grid-row:span 2">
+        <h4>📸 Parecer Visual (IA)</h4>
+        <div id="detImg" style="height:180px;background:linear-gradient(135deg,rgba(91,142,245,.1),rgba(122,92,255,.1));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:4rem;margin-bottom:12px"></div>
+        <div class="score-ring" id="detScore" style="border:3px solid var(--success)"></div>
+        <div id="detParecer" style="color:var(--nebula);font-size:.85rem;line-height:1.5;text-align:center"></div>
+      </div>
+      <div class="audit-card">
+        <h4>🔍 Auditoria SEO</h4>
+        <div id="detSEO"></div>
+        <h4 style="margin-top:16px">📝 Título Sugerido</h4>
+        <div id="detTitulo" style="color:var(--ecyan);font-size:.85rem;padding:8px;background:rgba(61,214,254,.05);border-radius:6px"></div>
+      </div>
+      <div class="audit-card">
+        <h4>⚕️ Health API (Penalidades Silenciosas)</h4>
+        <div id="detHealth"></div>
+      </div>
+    </div>
+    <div class="audit-card">
+      <h4>✍️ Nova Descrição AIDA (Gerada pela IA)</h4>
+      <div class="aida-block" id="detAIDA"></div>
+      <div style="display:flex;gap:8px;margin-top:12px"><button class="btn sm">📋 Copiar</button><button class="btn ghost sm">📥 Exportar Excel</button></div>
+    </div>
+  </div>
+</main>
+</div>
+
+<script>
+const ITEMS=[
+  {id:1,emoji:'💡',title:'Luminária Pendente LED Moderna 60cm Branco',price:'R$ 189,90',nota:9.2,tags:['Foto ambientada','SEO OK','EAN OK'],parecer:'Foto profissional com ambientação premium. Iluminação natural excelente, produto em destaque. Excelente apelo visual de compra.',seo:[{item:'Título',st:'ok',detail:'Contém produto + marca + modelo'},{item:'EAN/GTIN',st:'ok',detail:'Cadastrado corretamente'},{item:'Atributos',st:'ok',detail:'Marca e modelo preenchidos'}],tituloSug:'Luminária Pendente LED 60cm Modern Light - Branco Quente Bivolt',health:[{type:'ok',text:'Nenhuma penalidade detectada'}],aida:'✨ ATENÇÃO\nTransforme qualquer ambiente com essa luminária pendente LED de design moderno e minimalista.\n\n💡 INTERESSE\nCom 60cm de diâmetro e iluminação LED de alta eficiência, ela entrega luz quente e acolhedora, perfeita para salas de jantar, cozinhas gourmet e balcões.\n\n🏠 DESEJO\nAcabamento premium em alumínio escovado. Bivolt. Economia de até 80% na conta de luz. Instalação simples com kit completo incluso.\n\n🛒 AÇÃO\nGarantia de 1 ano. Envio em 24h. Aproveite agora!'},
+  {id:2,emoji:'🪞',title:'Espelho Decorativo Veneziano 80x60cm',price:'R$ 299,90',nota:6.8,tags:['Fundo branco','Falta marca no título'],parecer:'Foto em fundo branco padrão. Funcional mas sem apelo emocional. Falta ambientação que desperte desejo de compra.',seo:[{item:'Título',st:'warn',detail:'Falta marca no título'},{item:'EAN/GTIN',st:'ok',detail:'OK'},{item:'Descrição',st:'warn',detail:'Texto curto, sem formatação'}],tituloSug:'Espelho Decorativo Veneziano 80x60cm Crystal Art - Bisotê Premium',health:[{type:'warn',text:'improve_picture_quality — ML sugere melhorar qualidade da imagem'},{type:'warn',text:'add_brand — Adicionar marca ao título'}],aida:'✨ ATENÇÃO\nO espelho que vai elevar o design do seu espaço a outro nível.\n\n💎 INTERESSE\nModelo veneziano com bisotê artesanal, medindo 80x60cm. Cada peça é única, com acabamento que reflete luz de forma sofisticada.\n\n🏠 DESEJO\nPerfeito para halls, salas e banheiros. Moldura em MDF revestido com aplicação manual de espelhos. Peso: 4.2kg. Fácil instalação.\n\n🛒 AÇÃO\nCompre agora e receba em até 7 dias úteis!'},
+  {id:3,emoji:'🪑',title:'Mesa Centro Rustica Madeira promoção oferta FRETE GRÁTIS',price:'R$ 459,90',nota:3.5,tags:['Foto amadora','Spam no título','Falta EAN'],parecer:'Foto escura, amadora, com poluição visual (objetos ao fundo). Título com spam penalizado pelo algoritmo. Necessita retrabalho urgente.',seo:[{item:'Título',st:'err',detail:'Contém "promoção", "oferta", "FRETE GRÁTIS" — SPAM penalizado'},{item:'EAN/GTIN',st:'err',detail:'Não cadastrado — perda de posicionamento'},{item:'Atributos',st:'err',detail:'Marca e modelo ausentes'}],tituloSug:'Mesa de Centro Rústica Madeira Maciça 90x60cm - Design Industrial',health:[{type:'warn',text:'improve_picture_quality — Foto com qualidade insuficiente'},{type:'warn',text:'add_product_identifiers — Falta EAN/GTIN'},{type:'warn',text:'remove_spam_words — Palavras proibidas no título'}],aida:'✨ ATENÇÃO\nMesa de centro que une rusticidade e elegância para sua sala de estar.\n\n🪵 INTERESSE\nFabricada em madeira maciça de reflorestamento, com acabamento natural que valoriza os veios da madeira. Medidas: 90x60x45cm.\n\n🏠 DESEJO\nDesign industrial com pés em ferro forjado. Suporta até 50kg. Perfeita para compor com sofás de couro, tapetes e ambientes modernos.\n\n🛒 AÇÃO\nEnvio em 48h. Garantia contra defeitos de fabricação.'},
+  {id:4,emoji:'📦',title:'Kit 5 Nichos Hexagonais Decorativos MDF',price:'R$ 129,90',nota:8.1,tags:['Foto lifestyle','Marca OK'],parecer:'Boa ambientação lifestyle mostrando os nichos instalados em parede. Iluminação adequada. Produto em contexto de uso real.',seo:[{item:'Título',st:'ok',detail:'Produto + quantidade + material'},{item:'EAN/GTIN',st:'ok',detail:'OK'},{item:'Descrição',st:'warn',detail:'Poderia ser mais detalhada'}],tituloSug:'Kit 5 Nichos Hexagonais Decorativos MDF 15mm - Parede Sala Quarto',health:[{type:'ok',text:'Nenhuma penalidade'}],aida:'🎨 ATENÇÃO\nDecore suas paredes com estilo e personalidade.\n\n📐 INTERESSE\nKit com 5 nichos hexagonais em MDF 15mm. Cada peça mede 28cm de ponta a ponta. Acabamento em pintura UV resistente.\n\n🏠 DESEJO\nCombine cores e arranjos diferentes. Suporta objetos leves (até 2kg por nicho). Kit de instalação incluso.\n\n🛒 Compre agora!'},
+];
+
+let currentFilter='all';
+
+function renderGrid(){
+  const f=currentFilter==='all'?ITEMS:ITEMS.filter(i=>currentFilter==='low'?i.nota<5:i.nota>=5&&i.nota<8);
+  document.getElementById('listGrid').innerHTML=f.map(i=>`
+    <div class="listing" onclick="openDetail(${i.id})">
+      <div class="listing-img">${i.emoji}<span class="listing-nota ${i.nota>=8?'nota-high':i.nota>=5?'nota-mid':'nota-low'}">${i.nota}</span></div>
+      <div class="listing-body">
+        <div class="listing-title">${i.title}</div>
+        <div class="listing-price">${i.price}</div>
+        <div class="listing-tags">${i.tags.map(t=>`<span class="ltag ${t.includes('Falta')||t.includes('amadora')||t.includes('Spam')?'warn':'ok'}">${t}</span>`).join('')}</div>
+      </div>
+    </div>`).join('');
+}
+
+function filterN(f){currentFilter=f;renderGrid();}
+function showGrid(){document.getElementById('gridView').style.display='';document.getElementById('detView').classList.remove('active');}
+
+function openDetail(id){
+  const i=ITEMS.find(x=>x.id===id);if(!i)return;
+  document.getElementById('gridView').style.display='none';
+  document.getElementById('detView').classList.add('active');
+  document.getElementById('detImg').textContent=i.emoji;
+  const sr=document.getElementById('detScore');sr.textContent=i.nota;sr.style.borderColor=i.nota>=8?'var(--success)':i.nota>=5?'#ffc107':'var(--alert)';sr.style.color=i.nota>=8?'var(--success)':i.nota>=5?'#ffc107':'var(--alert)';
+  document.getElementById('detParecer').textContent=i.parecer;
+  document.getElementById('detSEO').innerHTML=i.seo.map(s=>`<div class="seo-item"><span style="color:var(--starlight)">${s.item}</span><span style="color:${s.st==='ok'?'var(--success)':s.st==='warn'?'#ffc107':'var(--alert)'}">${s.st==='ok'?'✅':'⚠️'} ${s.detail}</span></div>`).join('');
+  document.getElementById('detTitulo').textContent=i.tituloSug;
+  document.getElementById('detHealth').innerHTML=i.health.map(h=>`<div class="${h.type==='ok'?'health-ok':'health-alert'}">${h.type==='ok'?'✅':'⚠️'} ${h.text}</div>`).join('');
+  document.getElementById('detAIDA').textContent=i.aida;
+}
+
+renderGrid();
+</script>
+</body>
+</html>

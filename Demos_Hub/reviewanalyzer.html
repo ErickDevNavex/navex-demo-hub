@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navex Demo Hub - Review Analyzer</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.demo-layout { display: flex; height: 100vh; padding-top: 64px; }
+.demo-sidebar { width: 250px; background: var(--glass); border-right: 1px solid var(--line); padding: 24px; backdrop-filter: blur(12px); overflow-y: auto; }
+.demo-content { flex: 1; padding: 32px; overflow-y: auto; position: relative; z-index: 10; display:flex; flex-direction:column; gap:24px;}
+.demo-header { display: flex; justify-content: space-between; align-items: center; }
+.demo-title { font-family: var(--ff-acc); font-size: 1.5rem; color: var(--starlight); }
+.demo-card { background: var(--glass); border: 1px solid var(--line); border-radius: 12px; padding: 24px; backdrop-filter: blur(12px); }
+.back-btn { display: inline-flex; align-items: center; gap: 8px; color: var(--nebula); text-decoration: none; font-size: 0.875rem; transition: color 0.3s; }
+.back-btn:hover { color: var(--starlight); }
+
+.review-list { display: flex; flex-direction: column; gap: 16px; }
+.review-item { padding: 16px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,0.02); display: flex; gap: 16px; align-items: flex-start;}
+.review-stars { color: #facc15; letter-spacing: 2px;}
+.sentiment-badge { font-size: 0.75rem; padding: 4px 8px; border-radius: 4px; font-weight: 600; text-transform: uppercase;}
+.sentiment-positive { background: rgba(34, 197, 94, 0.2); color: var(--success); }
+.sentiment-negative { background: rgba(244, 63, 94, 0.2); color: var(--alert); }
+.sentiment-neutral { background: rgba(255, 255, 255, 0.1); color: var(--nebula); }
+
+.ai-summary { background: rgba(61, 214, 254, 0.05); border: 1px solid rgba(61, 214, 254, 0.3); padding: 16px; border-radius: 8px; margin-bottom: 24px;}
+.ai-summary h4 { color: var(--ecyan); font-size: 0.875rem; margin-bottom: 8px; display:flex; align-items:center; gap:8px;}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar">
+  <div class="container topbar-inner" style="max-width: 100%; padding: 0 32px;">
+    <a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a>
+    <div class="demo-badge" style="font-family: monospace; font-size: 0.75rem; color: var(--eblue); border: 1px solid var(--eblue); padding: 4px 8px; border-radius: 4px;">DEMO MODE</div>
+  </div>
+</header>
+<div class="demo-layout">
+  <aside class="demo-sidebar">
+    <a href="../navex-hub-portfolio-v1 (1).html" class="back-btn">← Voltar ao Hub</a>
+    <div style="margin-top: 32px;">
+      <h3 style="color: var(--starlight); font-size: 0.875rem; margin-bottom: 16px;">Produtos Monitorados</h3>
+      <ul style="list-style:none; padding:0; margin:0; color:var(--nebula); font-size:0.875rem; line-height:2;">
+        <li style="color:var(--starlight); font-weight:500;">Fone Bluetooth X</li>
+        <li>Smart TV 50"</li>
+        <li>Cadeira Gamer Pro</li>
+      </ul>
+    </div>
+  </aside>
+  <main class="demo-content">
+    <div class="demo-header">
+      <div>
+        <h1 class="demo-title">Review Analyzer</h1>
+        <p style="color:var(--nebula); font-size:0.875rem; margin-top:4px;">Análise de Sentimento com IA sobre comentários de clientes.</p>
+      </div>
+      <button class="btn sm">Extrair Novos Reviews</button>
+    </div>
+    
+    <div class="demo-card">
+      <div class="ai-summary">
+        <h4>✨ Resumo da IA (Últimos 100 reviews)</h4>
+        <p style="color:var(--starlight); font-size:0.9rem; line-height:1.6;">
+          <strong>Positivos (75%):</strong> Os clientes elogiam principalmente a "duração da bateria" e o "cancelamento de ruído".<br>
+          <strong>Negativos (15%):</strong> As principais queixas são sobre o "tempo de entrega" e "borrachas desconfortáveis" após 2h de uso.<br>
+          <strong>Sugestão de Ação:</strong> Incluir borrachas extras na embalagem ou evidenciar que o fone não é para uso esportivo extremo.
+        </p>
+      </div>
+
+      <div class="review-list">
+        <div class="review-item">
+          <div style="flex:1">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span class="review-stars">★★★★★</span>
+              <span class="sentiment-badge sentiment-positive">POS_BATERIA</span>
+            </div>
+            <p style="color:var(--starlight); font-size:0.9rem;">"A bateria dura incrivelmente bem! Fiquei a semana toda usando para trabalhar e não precisei carregar. O som é bom."</p>
+            <div style="font-size:0.75rem; color:var(--nebula); margin-top:8px;">João S. - Ontem</div>
+          </div>
+        </div>
+        
+        <div class="review-item">
+          <div style="flex:1">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span class="review-stars">★★☆☆☆</span>
+              <span class="sentiment-badge sentiment-negative">NEG_CONFORTO</span>
+            </div>
+            <p style="color:var(--starlight); font-size:0.9rem;">"O som é ótimo, mas machuca a orelha se usar por mais de uma hora. Veio com a caixa um pouco amassada."</p>
+            <div style="font-size:0.75rem; color:var(--nebula); margin-top:8px;">Maria O. - Há 2 dias</div>
+          </div>
+        </div>
+        
+        <div class="review-item">
+          <div style="flex:1">
+            <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+              <span class="review-stars">★★★☆☆</span>
+              <span class="sentiment-badge sentiment-neutral">NEUTRO</span>
+            </div>
+            <p style="color:var(--starlight); font-size:0.9rem;">"Fone ok pelo preço. Não é espetacular mas serve pro dia a dia no ônibus."</p>
+            <div style="font-size:0.75rem; color:var(--nebula); margin-top:8px;">Carlos M. - Há 3 dias</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>

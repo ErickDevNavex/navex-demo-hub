@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ManuTrack WMS - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:220px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:20px}.side a{color:var(--nebula);text-decoration:none;font-size:.82rem;padding:6px 0;display:block;transition:color .2s}.side a:hover,.side a.act{color:var(--starlight);font-weight:500}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:14px;border-radius:10px;text-align:center}.kpi-n{font-size:1.3rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}.kpi-l{font-size:.7rem;color:var(--nebula);margin-top:4px}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}.tbl th{text-align:left;padding:8px;color:var(--nebula);font-weight:500;border-bottom:1px solid var(--line);font-size:.72rem;text-transform:uppercase}.tbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--nebula)}.tbl tr:hover td{background:rgba(91,142,245,.03)}
+.st{padding:3px 8px;border-radius:4px;font-size:.7rem;font-weight:600}.st-prod{background:rgba(91,142,245,.15);color:var(--eblue)}.st-bip{background:rgba(255,193,7,.15);color:#ffc107}.st-done{background:rgba(34,197,94,.15);color:var(--success)}.st-wait{background:rgba(255,255,255,.08);color:var(--nebula)}
+.panel{display:none;flex-direction:column;gap:16px}.panel.active{display:flex}
+.bip-area{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:10px;padding:20px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.bip-input{width:300px;padding:12px 16px;border:2px solid var(--line);border-radius:8px;background:rgba(255,255,255,.02);color:var(--starlight);font-family:var(--ff-mono);font-size:1rem;text-align:center}
+.bip-input:focus{border-color:var(--ecyan);outline:none}
+.bip-log{width:100%;max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:6px}
+.bip-item{padding:8px 12px;border-radius:6px;font-size:.82rem;display:flex;justify-content:space-between}
+.bip-ok{background:rgba(34,197,94,.08);color:var(--success)}.bip-err{background:rgba(244,63,94,.08);color:var(--alert)}
+.etq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
+.etq{border:1px solid var(--line);border-radius:8px;padding:16px;text-align:center;background:rgba(255,255,255,.02)}
+.etq-sku{font-family:var(--ff-mono);font-size:.9rem;color:var(--starlight);font-weight:600;margin-bottom:4px}
+.etq-name{font-size:.75rem;color:var(--nebula);margin-bottom:8px}
+.etq-barcode{font-family:var(--ff-mono);font-size:.7rem;color:var(--orbit);letter-spacing:3px}
+.stock-row{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid rgba(255,255,255,.04)}
+.stock-bar{width:100px;height:8px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden}.stock-fill{height:100%;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side">
+<a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div style="border-top:1px solid var(--line);padding-top:16px;margin-top:8px">
+<div style="color:var(--orbit);font-size:.7rem;text-transform:uppercase;margin-bottom:8px">Menu WMS</div>
+<a href="#" class="act" onclick="sP('dash',this)">📊 Dashboard</a>
+<a href="#" onclick="sP('ops',this)">📋 Ordens de Produção</a>
+<a href="#" onclick="sP('bip',this)">📱 Bipagem</a>
+<a href="#" onclick="sP('etq',this)">🏷️ Etiquetas</a>
+<a href="#" onclick="sP('stock',this)">📦 Estoque Mínimo</a>
+<a href="#" onclick="sP('cargas',this)">🔄 Cargas ERP</a>
+</div>
+<div style="border-top:1px solid var(--line);padding-top:12px;margin-top:12px;font-size:.75rem;color:var(--nebula)">
+👤 Operador: João<br>Sessão: 4h22min
+</div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">ManuTrack WMS</h1><span style="color:var(--nebula);font-size:.75rem">Controle de Produção & Estoque</span></div>
+
+<!-- DASHBOARD -->
+<div class="panel active" id="pDash">
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-n" style="color:var(--ecyan)">47</div><div class="kpi-l">OPs Abertas</div></div>
+<div class="kpi"><div class="kpi-n" style="color:#ffc107">12</div><div class="kpi-l">Em Bipagem</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">183</div><div class="kpi-l">Concluídas (mês)</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--alert)">3</div><div class="kpi-l">Estoque Crítico</div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div style="background:rgba(255,255,255,.02);border:1px solid var(--line);padding:16px;border-radius:10px"><h4 style="color:var(--starlight);font-size:.9rem;margin:0 0 12px">Últimas OPs</h4>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:.82rem">
+<div style="display:flex;justify-content:space-between"><span style="color:var(--starlight)">OP-482 • Cuba Inox Dupla</span><span class="st st-prod">PRODUZINDO</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:var(--starlight)">OP-481 • Espelho LED 80cm</span><span class="st st-bip">BIPANDO</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:var(--starlight)">OP-480 • Torneira Gourmet</span><span class="st st-done">CONCLUÍDA</span></div>
+</div></div>
+<div style="background:rgba(255,255,255,.02);border:1px solid var(--line);padding:16px;border-radius:10px"><h4 style="color:var(--starlight);font-size:.9rem;margin:0 0 12px">Operadores Ativos</h4>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:.82rem">
+<div style="display:flex;justify-content:space-between"><span style="color:var(--starlight)">👤 João (Bipagem)</span><span style="color:var(--success)">● Online 4h</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:var(--starlight)">👤 Maria (Produção)</span><span style="color:var(--success)">● Online 6h</span></div>
+<div style="display:flex;justify-content:space-between"><span style="color:var(--starlight)">👤 Carlos (Expedição)</span><span style="color:var(--nebula)">● Offline</span></div>
+</div></div>
+</div>
+</div>
+
+<!-- OPs -->
+<div class="panel" id="pOps">
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--starlight);margin:0">Ordens de Produção</h3><button class="btn sm">+ Nova OP</button></div>
+<table class="tbl"><thead><tr><th>OP</th><th>Produto</th><th>SKU</th><th>Qtd</th><th>Produzido</th><th>Status</th><th>Operador</th><th>Início</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--starlight);font-family:var(--ff-mono)">OP-482</td><td>Cuba Inox Dupla 84cm</td><td style="font-family:var(--ff-mono)">CID-84</td><td>50</td><td>32/50</td><td><span class="st st-prod">PRODUZINDO</span></td><td>Maria</td><td>08:00</td></tr>
+<tr><td style="color:var(--starlight);font-family:var(--ff-mono)">OP-481</td><td>Espelho LED Oval 80cm</td><td style="font-family:var(--ff-mono)">ELO-80</td><td>30</td><td>30/30</td><td><span class="st st-bip">BIPANDO</span></td><td>João</td><td>07:30</td></tr>
+<tr><td style="color:var(--starlight);font-family:var(--ff-mono)">OP-480</td><td>Torneira Gourmet Flex</td><td style="font-family:var(--ff-mono)">TGF-01</td><td>100</td><td>100/100</td><td><span class="st st-done">CONCLUÍDA</span></td><td>Maria</td><td>Ontem</td></tr>
+<tr><td style="color:var(--starlight);font-family:var(--ff-mono)">OP-479</td><td>Cuba Oval Farm Sink</td><td style="font-family:var(--ff-mono)">COF-56</td><td>25</td><td>0/25</td><td><span class="st st-wait">AGUARDANDO</span></td><td>—</td><td>—</td></tr>
+</tbody></table>
+</div>
+
+<!-- BIPAGEM -->
+<div class="panel" id="pBip">
+<div class="bip-area">
+<h3 style="color:var(--starlight);margin:0">📱 Bipagem de Peças</h3>
+<p style="color:var(--nebula);font-size:.82rem;margin:0">Escaneie ou digite o código de barras da peça</p>
+<input class="bip-input" id="bipInput" placeholder="EAN / Código..." onkeydown="if(event.key==='Enter')bipar()">
+<button class="btn sm" onclick="bipar()">Bipar</button>
+<div style="color:var(--nebula);font-size:.8rem;margin-top:8px">OP Ativa: <strong style="color:var(--starlight)">OP-481 • Espelho LED Oval 80cm</strong> — 28/30 bipadas</div>
+<div class="bip-log" id="bipLog">
+<div class="bip-item bip-ok"><span>✅ ELO-80-028 bipada</span><span>14:32</span></div>
+<div class="bip-item bip-ok"><span>✅ ELO-80-027 bipada</span><span>14:31</span></div>
+<div class="bip-item bip-err"><span>❌ CID-84-015 — OP errada!</span><span>14:30</span></div>
+<div class="bip-item bip-ok"><span>✅ ELO-80-026 bipada</span><span>14:29</span></div>
+</div>
+</div>
+</div>
+
+<!-- ETIQUETAS -->
+<div class="panel" id="pEtq">
+<h3 style="color:var(--starlight);margin:0">🏷️ Gerador de Etiquetas</h3>
+<div class="etq-grid">
+<div class="etq"><div class="etq-sku">CID-84</div><div class="etq-name">Cuba Inox Dupla 84cm</div><div class="etq-barcode">||||| |||| |||||</div><div style="font-size:.65rem;color:var(--orbit);margin-top:4px">7898765432100</div></div>
+<div class="etq"><div class="etq-sku">ELO-80</div><div class="etq-name">Espelho LED Oval 80cm</div><div class="etq-barcode">||||| |||| |||||</div><div style="font-size:.65rem;color:var(--orbit);margin-top:4px">7898765432201</div></div>
+<div class="etq"><div class="etq-sku">TGF-01</div><div class="etq-name">Torneira Gourmet Flex</div><div class="etq-barcode">||||| |||| |||||</div><div style="font-size:.65rem;color:var(--orbit);margin-top:4px">7898765432302</div></div>
+<div class="etq"><div class="etq-sku">COF-56</div><div class="etq-name">Cuba Oval Farm Sink</div><div class="etq-barcode">||||| |||| |||||</div><div style="font-size:.65rem;color:var(--orbit);margin-top:4px">7898765432403</div></div>
+</div>
+<button class="btn sm" style="margin-top:12px" onclick="alert('PDF gerado com 4 etiquetas!')">📄 Gerar PDF</button>
+</div>
+
+<!-- ESTOQUE -->
+<div class="panel" id="pStock">
+<h3 style="color:var(--starlight);margin:0">📦 Estoque Mínimo</h3>
+<div id="stockList"></div>
+</div>
+
+<!-- CARGAS -->
+<div class="panel" id="pCargas">
+<h3 style="color:var(--starlight);margin:0">🔄 Cargas ERP (BaseLinker)</h3>
+<table class="tbl"><thead><tr><th>Data</th><th>Tipo</th><th>Registros</th><th>Status</th><th>Duração</th></tr></thead>
+<tbody>
+<tr><td>10/05 14:00</td><td>Reposição Estoque</td><td>847</td><td><span class="st st-done">OK</span></td><td>2min 34s</td></tr>
+<tr><td>10/05 08:00</td><td>Sync Pedidos</td><td>156</td><td><span class="st st-done">OK</span></td><td>45s</td></tr>
+<tr><td>09/05 20:00</td><td>Reposição Estoque</td><td>847</td><td><span class="st st-done">OK</span></td><td>2min 18s</td></tr>
+<tr><td>09/05 14:00</td><td>Reposição Estoque</td><td>845</td><td><span class="st st-bip">PARCIAL</span></td><td>3min 02s</td></tr>
+</tbody></table>
+</div>
+
+</main></div>
+<script>
+let bipCount=28;
+function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}
+function bipar(){const inp=document.getElementById('bipInput');const v=inp.value.trim()||'ELO-80-'+(bipCount+1).toString().padStart(3,'0');bipCount++;const log=document.getElementById('bipLog');const ok=Math.random()>0.15;log.innerHTML=`<div class="bip-item ${ok?'bip-ok':'bip-err'}"><span>${ok?'✅':'❌'} ${v} ${ok?'bipada':'— OP errada!'}</span><span>${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span></div>`+log.innerHTML;inp.value='';inp.focus();}
+const STOCK=[
+{sku:'CID-84',name:'Cuba Inox Dupla 84cm',atual:8,min:15,max:50},{sku:'ELO-80',name:'Espelho LED Oval 80cm',atual:22,min:10,max:40},{sku:'TGF-01',name:'Torneira Gourmet Flex',atual:3,min:20,max:100},{sku:'COF-56',name:'Cuba Oval Farm Sink',atual:45,min:10,max:60},{sku:'PRT-120',name:'Prateleira Flutuante 120cm',atual:5,min:12,max:50},
+];
+document.getElementById('stockList').innerHTML=STOCK.map(s=>{const pct=Math.round((s.atual/s.max)*100);const crit=s.atual<s.min;return`<div class="stock-row"><div style="flex:1"><div style="color:var(--starlight);font-size:.85rem;font-weight:500">${s.name}</div><div style="font-size:.75rem;color:var(--nebula);font-family:var(--ff-mono)">${s.sku} • Mín: ${s.min}</div></div><div style="display:flex;align-items:center;gap:12px"><span style="color:${crit?'var(--alert)':'var(--starlight)'};font-weight:600;font-size:.9rem">${s.atual}</span><div class="stock-bar"><div class="stock-fill" style="width:${pct}%;background:${crit?'var(--alert)':pct<50?'#ffc107':'var(--success)'}"></div></div>${crit?'<span style="font-size:.7rem;color:var(--alert)">⚠️ ABAIXO DO MÍNIMO</span>':''}</div></div>`}).join('');
+</script>
+</body></html>

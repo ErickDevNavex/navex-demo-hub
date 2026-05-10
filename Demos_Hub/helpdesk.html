@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Navex HelpDesk - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:220px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:20px}.side a{color:var(--nebula);text-decoration:none;font-size:.82rem;padding:6px 0;display:block}.side a:hover,.side a.act{color:var(--starlight);font-weight:500}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:14px;border-radius:10px;text-align:center}.kpi-n{font-size:1.3rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}.kpi-l{font-size:.7rem;color:var(--nebula);margin-top:4px}
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;flex:1}.kanban-col{background:rgba(255,255,255,.01);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;min-height:200px}
+.kanban-title{font-size:.8rem;color:var(--nebula);font-weight:600;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
+.kanban-count{background:rgba(255,255,255,.08);padding:2px 8px;border-radius:10px;font-size:.7rem}
+.ticket{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:8px;padding:10px;cursor:pointer;transition:all .2s;font-size:.82rem}
+.ticket:hover{border-color:var(--eblue);transform:translateY(-1px)}
+.ticket-title{color:var(--starlight);font-weight:500;margin-bottom:4px}
+.ticket-meta{color:var(--orbit);font-size:.72rem;display:flex;justify-content:space-between}
+.priority{width:4px;height:100%;border-radius:2px;position:absolute;left:0;top:0}
+.p-high{border-left:3px solid var(--alert)}.p-med{border-left:3px solid #ffc107}.p-low{border-left:3px solid var(--success)}
+.panel{display:none;flex-direction:column;gap:16px}.panel.active{display:flex}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side"><a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div style="border-top:1px solid var(--line);padding-top:12px"><div style="color:var(--orbit);font-size:.7rem;text-transform:uppercase;margin-bottom:8px">Menu</div>
+<a href="#" class="act" onclick="sP('board',this)">📋 Board</a>
+<a href="#" onclick="sP('novo',this)">➕ Novo Ticket</a>
+</div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">Navex HelpDesk</h1><button class="btn sm">+ Novo Ticket</button></div>
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-n" style="color:var(--ecyan)">18</div><div class="kpi-l">Total Abertos</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--alert)">4</div><div class="kpi-l">Urgentes</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">2h 15m</div><div class="kpi-l">Tempo Médio</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">94%</div><div class="kpi-l">SLA Cumprido</div></div>
+</div>
+
+<div class="panel active" id="pBoard">
+<div class="kanban">
+<div class="kanban-col"><div class="kanban-title">📥 Novo <span class="kanban-count">5</span></div>
+<div class="ticket p-high"><div class="ticket-title">🔴 Bot Alice parou de responder</div><div class="ticket-meta"><span>SAC ML</span><span>2min atrás</span></div></div>
+<div class="ticket p-med"><div class="ticket-title">🟡 Erro ao gerar etiquetas WMS</div><div class="ticket-meta"><span>Produção</span><span>15min</span></div></div>
+<div class="ticket p-low"><div class="ticket-title">🟢 Dúvida sobre relatório BI</div><div class="ticket-meta"><span>Financeiro</span><span>1h</span></div></div>
+</div>
+<div class="kanban-col"><div class="kanban-title">🔄 Em Andamento <span class="kanban-count">4</span></div>
+<div class="ticket p-high"><div class="ticket-title">🔴 Token ML expirado — Loja Beta</div><div class="ticket-meta"><span>SAC ML</span><span>30min</span></div></div>
+<div class="ticket p-med"><div class="ticket-title">🟡 Sync BaseLinker falhando</div><div class="ticket-meta"><span>WMS</span><span>2h</span></div></div>
+<div class="ticket p-low"><div class="ticket-title">🟢 Adicionar template de resposta</div><div class="ticket-meta"><span>SAC Shopee</span><span>4h</span></div></div>
+</div>
+<div class="kanban-col"><div class="kanban-title">👁️ Revisão <span class="kanban-count">3</span></div>
+<div class="ticket p-med"><div class="ticket-title">🟡 Campanha ADS pausada</div><div class="ticket-meta"><span>Marketing</span><span>1d</span></div></div>
+<div class="ticket p-low"><div class="ticket-title">🟢 Novo SKU no catálogo</div><div class="ticket-meta"><span>Cadastro</span><span>2d</span></div></div>
+</div>
+<div class="kanban-col"><div class="kanban-title">✅ Resolvido <span class="kanban-count">6</span></div>
+<div class="ticket"><div class="ticket-title" style="color:var(--nebula)">Margem negativa SKU-TPT</div><div class="ticket-meta"><span>Financeiro</span><span>Ontem</span></div></div>
+<div class="ticket"><div class="ticket-title" style="color:var(--nebula)">Deploy PromoCenter v2</div><div class="ticket-meta"><span>DevOps</span><span>2d</span></div></div>
+</div>
+</div>
+</div>
+
+<div class="panel" id="pNovo">
+<div style="background:rgba(255,255,255,.02);border:1px solid var(--line);padding:20px;border-radius:10px;max-width:500px">
+<h3 style="color:var(--starlight);margin:0 0 16px">➕ Novo Ticket</h3>
+<div style="display:flex;flex-direction:column;gap:12px">
+<input placeholder="Título do ticket" style="padding:10px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem">
+<select style="padding:10px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem"><option>Prioridade: Baixa</option><option>Prioridade: Média</option><option>Prioridade: Alta</option></select>
+<select style="padding:10px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem"><option>Setor: SAC ML</option><option>Setor: SAC Shopee</option><option>Setor: Produção</option><option>Setor: Financeiro</option><option>Setor: DevOps</option></select>
+<textarea placeholder="Descrição..." style="padding:10px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem;min-height:100px;resize:vertical"></textarea>
+<button class="btn sm" onclick="alert('Ticket criado com sucesso!')">Criar Ticket</button>
+</div></div>
+</div>
+
+</main></div>
+<script>function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}</script>
+</body></html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DataInsight BI - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:220px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:20px}.side a{color:var(--nebula);text-decoration:none;font-size:.82rem;padding:6px 0;display:block}.side a:hover,.side a.act{color:var(--starlight);font-weight:500}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:16px;border-radius:10px;text-align:center}.kpi-n{font-size:1.4rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}.kpi-l{font-size:.7rem;color:var(--nebula);margin-top:4px}.kpi-delta{font-size:.72rem;margin-top:2px}
+.chart-card{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:20px;border-radius:10px}
+.chart-card h4{color:var(--starlight);font-size:.9rem;margin:0 0 16px}
+.bar-row{display:flex;align-items:center;gap:8px;font-size:.78rem;margin-bottom:6px}.bar-label{width:60px;color:var(--nebula);text-align:right;font-size:.75rem}.bar-track{flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:4px;overflow:hidden}.bar-fill{height:100%;border-radius:4px;transition:width .5s}.bar-val{width:60px;color:var(--nebula);font-size:.75rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}.tbl th{text-align:left;padding:8px;color:var(--nebula);font-weight:500;border-bottom:1px solid var(--line);font-size:.72rem;text-transform:uppercase}.tbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--nebula)}
+.panel{display:none;flex-direction:column;gap:16px}.panel.active{display:flex}
+.donut-container{display:flex;justify-content:center;gap:40px;align-items:center;flex-wrap:wrap}
+.donut-item{text-align:center}.donut-circle{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;margin:0 auto 8px}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side"><a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div style="border-top:1px solid var(--line);padding-top:12px"><div style="color:var(--orbit);font-size:.7rem;text-transform:uppercase;margin-bottom:8px">Visões</div>
+<a href="#" class="act" onclick="sP('geral',this)">📊 Visão Geral</a>
+<a href="#" onclick="sP('canais',this)">🏪 Por Canal</a>
+<a href="#" onclick="sP('produtos',this)">📦 Produtos</a>
+</div>
+<div><div style="color:var(--orbit);font-size:.7rem;text-transform:uppercase;margin-bottom:8px">Período</div>
+<select style="width:100%;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:6px;padding:6px;color:var(--starlight);font-size:.8rem"><option>Últimos 30 dias</option><option>Últimos 7 dias</option><option>Este mês</option><option>Mês passado</option></select>
+</div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">DataInsight BI</h1><span style="color:var(--nebula);font-size:.75rem">Painel Business Intelligence</span></div>
+
+<!-- GERAL -->
+<div class="panel active" id="pGeral">
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">R$ 168k</div><div class="kpi-l">Faturamento</div><div class="kpi-delta" style="color:var(--success)">↑ 8.2%</div></div>
+<div class="kpi"><div class="kpi-n">1.847</div><div class="kpi-l">Pedidos</div><div class="kpi-delta" style="color:var(--success)">↑ 12%</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--ecyan)">R$ 91</div><div class="kpi-l">Ticket Médio</div><div class="kpi-delta" style="color:var(--alert)">↓ 3.2%</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">33.7%</div><div class="kpi-l">Margem Bruta</div><div class="kpi-delta" style="color:var(--success)">↑ 1.5pp</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--aur-violet)">4.2%</div><div class="kpi-l">Taxa Cancelamento</div><div class="kpi-delta" style="color:var(--success)">↓ 0.8pp</div></div>
+</div>
+<div class="grid-2">
+<div class="chart-card"><h4>Faturamento Diário (30d)</h4><div id="fatChart"></div></div>
+<div class="chart-card"><h4>Mix de Canais</h4>
+<div class="donut-container">
+<div class="donut-item"><div class="donut-circle" style="border:3px solid var(--eblue);color:var(--eblue)">52%</div><div style="font-size:.8rem;color:var(--nebula)">Mercado Livre</div><div style="font-size:.75rem;color:var(--starlight)">R$ 87k</div></div>
+<div class="donut-item"><div class="donut-circle" style="border:3px solid #ee4d2d;color:#ee4d2d">28%</div><div style="font-size:.8rem;color:var(--nebula)">Shopee</div><div style="font-size:.75rem;color:var(--starlight)">R$ 47k</div></div>
+<div class="donut-item"><div class="donut-circle" style="border:3px solid var(--aur-violet);color:var(--aur-violet)">12%</div><div style="font-size:.8rem;color:var(--nebula)">Magalu</div><div style="font-size:.75rem;color:var(--starlight)">R$ 20k</div></div>
+<div class="donut-item"><div class="donut-circle" style="border:3px solid var(--success);color:var(--success)">8%</div><div style="font-size:.8rem;color:var(--nebula)">Outros</div><div style="font-size:.75rem;color:var(--starlight)">R$ 14k</div></div>
+</div></div>
+</div>
+</div>
+
+<!-- CANAIS -->
+<div class="panel" id="pCanais">
+<div class="chart-card"><h4>Performance por Canal</h4>
+<table class="tbl"><thead><tr><th>Canal</th><th>Faturamento</th><th>Pedidos</th><th>Ticket Médio</th><th>Margem</th><th>Cancelamento</th><th>Tendência</th></tr></thead>
+<tbody>
+<tr><td style="color:var(--starlight)">Mercado Livre</td><td>R$ 87.360</td><td>725</td><td>R$ 120,50</td><td style="color:var(--success)">35.2%</td><td>3.8%</td><td style="color:var(--success)">↑</td></tr>
+<tr><td style="color:var(--starlight)">Shopee</td><td>R$ 47.040</td><td>680</td><td>R$ 69,18</td><td>28.5%</td><td>5.1%</td><td style="color:var(--success)">↑</td></tr>
+<tr><td style="color:var(--starlight)">Magazine Luiza</td><td>R$ 20.160</td><td>298</td><td>R$ 67,65</td><td style="color:#ffc107">22.1%</td><td>4.8%</td><td style="color:var(--nebula)">→</td></tr>
+<tr><td style="color:var(--starlight)">B2W/Americanas</td><td>R$ 14.240</td><td>144</td><td>R$ 98,89</td><td style="color:var(--alert)">18.3%</td><td style="color:var(--alert)">7.2%</td><td style="color:var(--alert)">↓</td></tr>
+</tbody></table></div>
+</div>
+
+<!-- PRODUTOS -->
+<div class="panel" id="pProdutos">
+<div class="chart-card"><h4>Top Produtos por Faturamento</h4>
+<table class="tbl"><thead><tr><th>SKU</th><th>Produto</th><th>Vendas</th><th>Faturamento</th><th>Margem</th><th>Estoque</th></tr></thead>
+<tbody>
+<tr><td style="font-family:var(--ff-mono)">CID-84</td><td style="color:var(--starlight)">Cuba Inox Dupla 84cm</td><td>142</td><td>R$ 69.586</td><td style="color:var(--success)">36.7%</td><td>8</td></tr>
+<tr><td style="font-family:var(--ff-mono)">LPL-60</td><td style="color:var(--starlight)">Luminária Pendente LED</td><td>128</td><td>R$ 24.307</td><td style="color:var(--success)">42.1%</td><td>22</td></tr>
+<tr><td style="font-family:var(--ff-mono)">ELO-80</td><td style="color:var(--starlight)">Espelho LED Oval 80cm</td><td>95</td><td>R$ 31.341</td><td>31.5%</td><td>15</td></tr>
+<tr><td style="font-family:var(--ff-mono)">MSR-90</td><td style="color:var(--starlight)">Mesa Rústica 90cm</td><td>52</td><td>R$ 23.915</td><td style="color:var(--success)">35.8%</td><td>12</td></tr>
+<tr><td style="font-family:var(--ff-mono)">NHX-05</td><td style="color:var(--starlight)">Kit Nichos Hexagonais</td><td>88</td><td>R$ 11.431</td><td style="color:var(--success)">38.2%</td><td>45</td></tr>
+</tbody></table></div>
+</div>
+
+</main></div>
+<script>
+function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}
+const days=Array.from({length:30},(_,i)=>{const d=new Date();d.setDate(d.getDate()-29+i);return{d:d.getDate(),v:Math.floor(3000+Math.random()*5000)}});
+const max=Math.max(...days.map(x=>x.v));
+document.getElementById('fatChart').innerHTML=days.map(x=>`<div class="bar-row"><div class="bar-label">${x.d}</div><div class="bar-track"><div class="bar-fill" style="width:${(x.v/max)*100}%;background:var(--ecyan)"></div></div><div class="bar-val">R$${(x.v/1000).toFixed(1)}k</div></div>`).join('');
+</script>
+</body></html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>BotMaker Flow - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:240px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:24px}.side a{color:var(--nebula);text-decoration:none;font-size:.85rem}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.chat-container{max-width:500px;margin:0 auto;background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;height:calc(100vh - 180px)}
+.chat-head{background:linear-gradient(135deg,rgba(0,136,204,.2),rgba(91,142,245,.1));padding:16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
+.chat-avatar{width:40px;height:40px;border-radius:50%;background:rgba(0,136,204,.3);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.chat-name{color:var(--starlight);font-weight:600;font-size:.9rem}.chat-status{color:var(--success);font-size:.75rem}
+.chat-body{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:80%;padding:10px 14px;border-radius:12px;font-size:.85rem;line-height:1.5;animation:fadeIn .3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-bot{background:rgba(255,255,255,.06);color:var(--starlight);align-self:flex-start;border-bottom-left-radius:2px}
+.msg-user{background:rgba(0,136,204,.2);color:var(--starlight);align-self:flex-end;border-bottom-right-radius:2px}
+.msg-chart{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:8px;padding:12px;align-self:flex-start;max-width:90%}
+.msg-chart-title{font-size:.8rem;color:var(--starlight);font-weight:600;margin-bottom:8px}
+.msg-chart-row{display:flex;align-items:center;gap:8px;font-size:.78rem;margin-bottom:4px}
+.msg-chart-bar{height:14px;border-radius:3px;min-width:4px}
+.msg-time{font-size:.65rem;color:var(--orbit);margin-top:4px}
+.chat-footer{padding:12px;border-top:1px solid var(--line);display:flex;gap:8px}
+.chat-input{flex:1;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem}
+.cmd-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;padding:8px 16px}
+.cmd-btn{padding:8px;border:1px solid var(--line);border-radius:6px;background:transparent;color:var(--nebula);font-size:.78rem;cursor:pointer;transition:all .2s;text-align:left}
+.cmd-btn:hover{border-color:var(--eblue);color:var(--starlight)}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side"><a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:8px">Comandos</div>
+<div style="font-size:.78rem;color:var(--nebula);line-height:2">
+/relatorio<br>/vendas_hoje<br>/estoque<br>/margem [SKU]<br>/top10<br>/faturamento<br>/alertas<br>/help
+</div></div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">BotMaker Flow</h1><span style="color:var(--nebula);font-size:.75rem">Assistente Telegram BI</span></div>
+<div class="chat-container">
+<div class="chat-head"><div class="chat-avatar">🤖</div><div><div class="chat-name">DataBot Assistente</div><div class="chat-status">● Online</div></div></div>
+<div class="cmd-grid">
+<button class="cmd-btn" onclick="sendCmd('/vendas_hoje')">📊 Vendas Hoje</button>
+<button class="cmd-btn" onclick="sendCmd('/top10')">🏆 Top 10 SKUs</button>
+<button class="cmd-btn" onclick="sendCmd('/estoque')">📦 Estoque Crítico</button>
+<button class="cmd-btn" onclick="sendCmd('/faturamento')">💰 Faturamento</button>
+</div>
+<div class="chat-body" id="chatBody">
+<div class="msg msg-bot">Olá! 👋 Sou o DataBot, seu assistente de dados via Telegram.<br><br>Envie um comando ou use os atalhos acima.<br>Digite <strong>/help</strong> para ver todos os comandos.<div class="msg-time">14:00</div></div>
+</div>
+<div class="chat-footer">
+<input class="chat-input" id="chatInput" placeholder="Digite um comando..." onkeydown="if(event.key==='Enter')sendCmd(this.value)">
+<button class="btn sm" onclick="sendCmd(document.getElementById('chatInput').value)">Enviar</button>
+</div>
+</div>
+</main></div>
+<script>
+const RESPONSES={
+'/vendas_hoje':{text:'📊 <strong>Relatório de Vendas — Hoje</strong>\n\nTotal: <strong>47 pedidos</strong>\nFaturamento: <strong>R$ 12.840,00</strong>\nTicket Médio: <strong>R$ 273,19</strong>\n\nCanais:\n• ML: 28 pedidos (R$ 8.120)\n• Shopee: 14 pedidos (R$ 3.420)\n• Magalu: 5 pedidos (R$ 1.300)',chart:{title:'Vendas por Hora',rows:[{l:'08h',v:3},{l:'09h',v:5},{l:'10h',v:8},{l:'11h',v:7},{l:'12h',v:4},{l:'13h',v:6},{l:'14h',v:9},{l:'15h',v:5}]}},
+'/top10':{text:'🏆 <strong>Top 10 SKUs (30 dias)</strong>\n\n1. CID-84 Cuba Inox Dupla — 142 un\n2. LPL-60 Luminária LED — 128 un\n3. ELO-80 Espelho LED — 95 un\n4. NHX-05 Kit Nichos — 88 un\n5. TGF-01 Torneira Gourmet — 76 un\n6. PRT-120 Prateleira — 71 un\n7. COF-56 Cuba Oval — 64 un\n8. MSR-90 Mesa Rústica — 52 un\n9. DSS-01 Dispenser — 48 un\n10. TPT-04 Tapete — 39 un'},
+'/estoque':{text:'📦 <strong>Alertas de Estoque</strong>\n\n🔴 TGF-01 Torneira Gourmet: <strong>3 un</strong> (mín: 20)\n🔴 PRT-120 Prateleira 120cm: <strong>5 un</strong> (mín: 12)\n🔴 CID-84 Cuba Inox Dupla: <strong>8 un</strong> (mín: 15)\n\n⚠️ 3 SKUs abaixo do mínimo!\nAção sugerida: Abrir OP de produção urgente.'},
+'/faturamento':{text:'💰 <strong>Faturamento Mensal</strong>\n\nMaio/2026 (parcial): <strong>R$ 142.800</strong>\nAbril/2026: <strong>R$ 168.450</strong>\nMarço/2026: <strong>R$ 155.200</strong>\n\nProjeção Maio: <strong>R$ 178.500</strong> (+6%)',chart:{title:'Faturamento Mensal (R$ mil)',rows:[{l:'Jan',v:120},{l:'Fev',v:135},{l:'Mar',v:155},{l:'Abr',v:168},{l:'Mai',v:142}]}},
+'/help':{text:'📖 <strong>Comandos Disponíveis</strong>\n\n/vendas_hoje — Resumo de vendas do dia\n/top10 — Top 10 SKUs mais vendidos\n/estoque — Alertas de estoque crítico\n/faturamento — Faturamento mensal\n/margem [SKU] — Margem de um SKU\n/relatorio — Relatório completo Excel\n/alertas — Alertas e notificações'},
+};
+
+function sendCmd(cmd){
+  cmd=cmd.trim();if(!cmd)return;
+  const body=document.getElementById('chatBody');
+  body.innerHTML+=`<div class="msg msg-user">${cmd}<div class="msg-time">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+  document.getElementById('chatInput').value='';
+  
+  setTimeout(()=>{
+    const r=RESPONSES[cmd];
+    if(r){
+      body.innerHTML+=`<div class="msg msg-bot">${r.text.replace(/\n/g,'<br>')}<div class="msg-time">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+      if(r.chart){
+        const max=Math.max(...r.chart.rows.map(x=>x.v));
+        body.innerHTML+=`<div class="msg-chart"><div class="msg-chart-title">${r.chart.title}</div>${r.chart.rows.map(x=>`<div class="msg-chart-row"><span style="width:30px;color:var(--nebula)">${x.l}</span><div class="msg-chart-bar" style="width:${(x.v/max)*200}px;background:var(--ecyan)"></div><span style="color:var(--starlight)">${x.v}</span></div>`).join('')}</div>`;
+      }
+    }else{
+      body.innerHTML+=`<div class="msg msg-bot">Comando não reconhecido. Digite <strong>/help</strong> para ver os comandos disponíveis.<div class="msg-time">${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+    }
+    body.scrollTop=body.scrollHeight;
+  },800);
+  body.scrollTop=body.scrollHeight;
+}
+</script>
+</body></html>

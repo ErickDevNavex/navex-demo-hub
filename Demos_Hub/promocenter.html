@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>PromoCenter - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:240px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:24px}.side a{color:var(--nebula);text-decoration:none;font-size:.85rem}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);padding-bottom:8px}.tab{padding:8px 16px;border-radius:6px 6px 0 0;border:1px solid transparent;background:transparent;color:var(--nebula);cursor:pointer;font-size:.85rem}.tab.active{background:rgba(91,142,245,.1);border-color:var(--line);border-bottom:2px solid var(--eblue);color:var(--starlight)}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:14px;border-radius:10px;text-align:center}.kpi-n{font-size:1.3rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}.kpi-l{font-size:.7rem;color:var(--nebula);margin-top:4px}
+.promo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+.promo{padding:16px;border:1px solid var(--line);border-radius:10px;background:rgba(255,255,255,.02);transition:all .2s}.promo:hover{border-color:var(--eblue)}
+.promo-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.promo-name{color:var(--starlight);font-weight:600;font-size:.9rem}
+.promo-st{font-size:.7rem;padding:3px 8px;border-radius:4px;font-weight:600}
+.st-live{background:rgba(34,197,94,.15);color:var(--success)}.st-soon{background:rgba(255,193,7,.15);color:#ffc107}.st-ended{background:rgba(255,255,255,.08);color:var(--nebula)}
+.promo-meta{font-size:.8rem;color:var(--nebula);line-height:1.6;margin-bottom:10px}
+.promo-bar{display:flex;gap:16px;font-size:.78rem}
+.promo-bar span{color:var(--nebula)}.promo-bar strong{color:var(--starlight)}
+.panel{display:none;flex-direction:column;gap:16px}.panel.active{display:flex}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}.tbl th{text-align:left;padding:8px;color:var(--nebula);font-weight:500;border-bottom:1px solid var(--line);font-size:.72rem;text-transform:uppercase}.tbl td{padding:8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--nebula)}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side"><a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:8px">Lojas</div><div style="font-size:.8rem;color:var(--nebula);line-height:1.8"><div style="color:var(--starlight)">● Alpha Store</div><div>● Beta Decor</div><div>● Gamma Home</div></div></div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">PromoCenter</h1><span style="color:var(--nebula);font-size:.75rem">Central de Promoções Marketplace</span></div>
+<div class="tabs">
+<button class="tab active" onclick="sTab('ativas',this)">🔥 Ativas</button>
+<button class="tab" onclick="sTab('ofertas',this)">📋 Ofertas Inscritas</button>
+<button class="tab" onclick="sTab('analise',this)">📊 Análise</button>
+</div>
+
+<div class="panel active" id="pAtivas">
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">5</div><div class="kpi-l">Promoções Ativas</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--ecyan)">142</div><div class="kpi-l">Ofertas Inscritas</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">+34%</div><div class="kpi-l">Aumento Vendas</div></div>
+<div class="kpi"><div class="kpi-n" style="color:#ffc107">R$ 8.200</div><div class="kpi-l">Desconto Concedido</div></div>
+</div>
+<div class="promo-grid">
+<div class="promo"><div class="promo-head"><div class="promo-name">🔥 Super Ofertas de Maio</div><span class="promo-st st-live">AO VIVO</span></div><div class="promo-meta">📅 01/05 - 31/05 • Marketplace<br>🏷️ Desconto mínimo: 15% | Frete grátis obrigatório</div><div class="promo-bar"><span>Inscritos: <strong>48</strong></span><span>Vendas: <strong>312</strong></span><span>Conversão: <strong style="color:var(--success)">18.2%</strong></span></div></div>
+<div class="promo"><div class="promo-head"><div class="promo-name">⚡ Relâmpago - Casa & Decoração</div><span class="promo-st st-live">AO VIVO</span></div><div class="promo-meta">📅 10/05 12:00 - 18:00 • Flash Sale<br>🏷️ Desconto: 20-40% | Slots limitados</div><div class="promo-bar"><span>Inscritos: <strong>12</strong></span><span>Vendas: <strong>87</strong></span><span>Conversão: <strong style="color:var(--success)">24.5%</strong></span></div></div>
+<div class="promo"><div class="promo-head"><div class="promo-name">🎯 Meli+</div><span class="promo-st st-live">AO VIVO</span></div><div class="promo-meta">📅 Permanente • Programa de fidelidade<br>🏷️ Frete grátis para assinantes Meli+</div><div class="promo-bar"><span>Inscritos: <strong>65</strong></span><span>Vendas: <strong>520</strong></span><span>Conversão: <strong>12.8%</strong></span></div></div>
+<div class="promo"><div class="promo-head"><div class="promo-name">🏠 Dia das Mães</div><span class="promo-st st-ended">ENCERRADA</span></div><div class="promo-meta">📅 01/05 - 11/05 • Campanha sazonal<br>🏷️ Desconto: 10-30%</div><div class="promo-bar"><span>Inscritos: <strong>35</strong></span><span>Vendas: <strong>248</strong></span><span>Conversão: <strong>15.4%</strong></span></div></div>
+<div class="promo"><div class="promo-head"><div class="promo-name">🛒 Oferta do Dia</div><span class="promo-st st-soon">AGENDADA</span></div><div class="promo-meta">📅 12/05 08:00 - 23:59<br>🏷️ 1 produto por loja, desconto mínimo 25%</div><div class="promo-bar"><span>Inscritos: <strong>3</strong></span><span>Vendas: <strong>—</strong></span></div></div>
+</div>
+</div>
+
+<div class="panel" id="pOfertas">
+<table class="tbl"><thead><tr><th>SKU</th><th>Produto</th><th>Promoção</th><th>Preço Original</th><th>Preço Promo</th><th>Desconto</th><th>Vendas</th><th>Status</th></tr></thead>
+<tbody>
+<tr><td style="font-family:var(--ff-mono)">CID-84</td><td>Cuba Inox Dupla 84cm</td><td>Super Ofertas</td><td>R$ 489,90</td><td style="color:var(--success)">R$ 399,90</td><td>18%</td><td>45</td><td><span style="color:var(--success);font-size:.75rem">Ativa</span></td></tr>
+<tr><td style="font-family:var(--ff-mono)">ELO-80</td><td>Espelho LED Oval</td><td>Relâmpago</td><td>R$ 329,90</td><td style="color:var(--success)">R$ 249,90</td><td>24%</td><td>28</td><td><span style="color:var(--success);font-size:.75rem">Ativa</span></td></tr>
+<tr><td style="font-family:var(--ff-mono)">LPL-60</td><td>Luminária Pendente LED</td><td>Super Ofertas</td><td>R$ 189,90</td><td style="color:var(--success)">R$ 152,90</td><td>19%</td><td>62</td><td><span style="color:var(--success);font-size:.75rem">Ativa</span></td></tr>
+<tr><td style="font-family:var(--ff-mono)">MSR-90</td><td>Mesa Rústica 90cm</td><td>Dia das Mães</td><td>R$ 459,90</td><td>R$ 367,90</td><td>20%</td><td>18</td><td><span style="color:var(--nebula);font-size:.75rem">Encerrada</span></td></tr>
+</tbody></table>
+</div>
+
+<div class="panel" id="pAnalise">
+<div style="background:rgba(61,214,254,.04);border:1px solid rgba(61,214,254,.2);padding:16px;border-radius:8px;font-size:.85rem;color:var(--starlight);line-height:1.6">
+<strong>📊 Análise de Performance das Promoções</strong><br><br>
+• <strong>ROI das Promoções:</strong> Para cada R$ 1 de desconto concedido, houve retorno de R$ 4,20 em volume adicional<br>
+• <strong>Melhor campanha:</strong> "Relâmpago - Casa & Decoração" com conversão de 24.5% (acima da média de 15%)<br>
+• <strong>SKU Destaque:</strong> Luminária Pendente LED — 62 vendas na promoção vs média de 15/mês<br>
+• <strong>Oportunidade:</strong> Cubas Inox têm boa conversão em promoção (18%) mas margem após desconto ainda é 22% — considerar inscrever em mais campanhas<br>
+• <strong>Alerta:</strong> Mesa Rústica teve baixa performance na campanha Dia das Mães (18 vendas). Considerar desconto mais agressivo ou foto lifestyle
+</div>
+</div>
+
+</main></div>
+<script>function sTab(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}</script>
+</body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Studio AI Generator - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:280px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:16px}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.field{display:flex;flex-direction:column;gap:4px}.field label{font-size:.78rem;color:var(--nebula);font-weight:500}
+.field input,.field select,.field textarea{padding:10px;border:1px solid var(--line);border-radius:6px;background:rgba(255,255,255,.02);color:var(--starlight);font-size:.85rem;font-family:var(--ff-sans)}
+.field textarea{min-height:80px;resize:vertical}
+.scene-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.scene{padding:8px;border:1px solid var(--line);border-radius:6px;text-align:center;cursor:pointer;font-size:.78rem;color:var(--nebula);transition:all .2s}.scene:hover,.scene.active{border-color:var(--eblue);color:var(--starlight);background:rgba(91,142,245,.1)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.gen-card{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:rgba(255,255,255,.02);transition:all .2s}.gen-card:hover{border-color:var(--eblue);transform:translateY(-2px)}
+.gen-img{height:200px;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative}
+.gen-body{padding:14px}
+.gen-prompt{font-size:.78rem;color:var(--nebula);line-height:1.4;margin-bottom:8px}
+.gen-meta{display:flex;justify-content:space-between;font-size:.72rem;color:var(--orbit)}
+.gen-actions{display:flex;gap:6px;margin-top:8px}
+.gen-actions button{padding:4px 10px;border:1px solid var(--line);border-radius:4px;background:transparent;color:var(--nebula);font-size:.72rem;cursor:pointer}
+.gen-actions button:hover{border-color:var(--eblue);color:var(--starlight)}
+.loading{display:none;flex-direction:column;align-items:center;gap:16px;padding:40px}
+.spinner{width:40px;height:40px;border:3px solid var(--line);border-top-color:var(--ecyan);border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side">
+<a href="../navex-hub-portfolio-v1 (1).html" style="color:var(--nebula);text-decoration:none;font-size:.85rem">← Voltar ao Hub</a>
+<h3 style="color:var(--starlight);font-size:1rem;margin:0">🎨 Gerar Imagem</h3>
+<div class="field"><label>Produto</label><input id="inpProd" value="Cuba Inox Dupla 84cm"></div>
+<div class="field"><label>Cenário</label>
+<div class="scene-grid">
+<div class="scene active" onclick="selScene(this,'cozinha')">🍳 Cozinha</div>
+<div class="scene" onclick="selScene(this,'banheiro')">🚿 Banheiro</div>
+<div class="scene" onclick="selScene(this,'sala')">🛋️ Sala</div>
+<div class="scene" onclick="selScene(this,'estudio')">📸 Estúdio</div>
+<div class="scene" onclick="selScene(this,'jardim')">🌿 Jardim</div>
+<div class="scene" onclick="selScene(this,'minimal')">⬜ Minimalista</div>
+</div></div>
+<div class="field"><label>Estilo</label><select id="selStyle"><option>Fotorrealista</option><option>Editorial</option><option>Lifestyle</option><option>Product Shot</option></select></div>
+<div class="field"><label>Prompt adicional (opcional)</label><textarea id="inpExtra" placeholder="Ex: iluminação natural, ângulo 45°..."></textarea></div>
+<button class="btn" style="width:100%" onclick="generate()">✨ Gerar Imagem</button>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">Studio AI Generator</h1><span style="color:var(--nebula);font-size:.75rem">Pipeline de Geração de Imagens IA</span></div>
+<div class="loading" id="loading"><div class="spinner"></div><span style="color:var(--nebula);font-size:.85rem">Gerando imagem via IA...</span><span style="color:var(--orbit);font-size:.75rem">Modelo: Gemini Imagen 3</span></div>
+<div class="gallery" id="gallery">
+<div class="gen-card"><div class="gen-img" style="background:linear-gradient(135deg,rgba(91,142,245,.15),rgba(61,214,254,.1))">🍳</div><div class="gen-body"><div class="gen-prompt">"Cuba Inox Dupla 84cm em cozinha gourmet moderna, iluminação natural, bancada de granito escuro"</div><div class="gen-meta"><span>Fotorrealista</span><span>1024x1024</span></div><div class="gen-actions"><button>📥 Download</button><button>🔄 Variação</button><button>⭐ Favoritar</button></div></div></div>
+<div class="gen-card"><div class="gen-img" style="background:linear-gradient(135deg,rgba(122,92,255,.15),rgba(244,63,94,.08))">🪞</div><div class="gen-body"><div class="gen-prompt">"Espelho LED Oval 80cm em banheiro spa, mármore branco, plantas ornamentais"</div><div class="gen-meta"><span>Lifestyle</span><span>1024x1024</span></div><div class="gen-actions"><button>📥 Download</button><button>🔄 Variação</button><button>⭐ Favoritar</button></div></div></div>
+<div class="gen-card"><div class="gen-img" style="background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(61,214,254,.1))">💡</div><div class="gen-body"><div class="gen-prompt">"Luminária Pendente LED 60cm sobre mesa de jantar em ambiente escandinavo"</div><div class="gen-meta"><span>Editorial</span><span>1024x1024</span></div><div class="gen-actions"><button>📥 Download</button><button>🔄 Variação</button><button>⭐ Favoritar</button></div></div></div>
+<div class="gen-card"><div class="gen-img" style="background:linear-gradient(135deg,rgba(255,193,7,.1),rgba(244,63,94,.08))">🪵</div><div class="gen-body"><div class="gen-prompt">"Mesa Rústica Madeira 90cm em sala de estar industrial, piso de concreto"</div><div class="gen-meta"><span>Fotorrealista</span><span>1024x1024</span></div><div class="gen-actions"><button>📥 Download</button><button>🔄 Variação</button><button>⭐ Favoritar</button></div></div></div>
+</div>
+</main></div>
+<script>
+let curScene='cozinha';
+function selScene(el,s){document.querySelectorAll('.scene').forEach(x=>x.classList.remove('active'));el.classList.add('active');curScene=s;}
+const emojis={cozinha:'🍳',banheiro:'🚿',sala:'🛋️',estudio:'📸',jardim:'🌿',minimal:'⬜'};
+const colors=['rgba(91,142,245,.15),rgba(61,214,254,.1)','rgba(122,92,255,.15),rgba(244,63,94,.08)','rgba(34,197,94,.1),rgba(61,214,254,.1)','rgba(255,193,7,.1),rgba(244,63,94,.08)'];
+function generate(){
+  const prod=document.getElementById('inpProd').value;const style=document.getElementById('selStyle').value;const extra=document.getElementById('inpExtra').value;
+  const prompt=`"${prod} em ${curScene} ${extra?', '+extra:''}"`;
+  document.getElementById('loading').style.display='flex';
+  setTimeout(()=>{
+    document.getElementById('loading').style.display='none';
+    const c=colors[Math.floor(Math.random()*colors.length)];
+    const card=`<div class="gen-card"><div class="gen-img" style="background:linear-gradient(135deg,${c})">${emojis[curScene]}</div><div class="gen-body"><div class="gen-prompt">${prompt}</div><div class="gen-meta"><span>${style}</span><span>1024x1024</span></div><div class="gen-actions"><button>📥 Download</button><button>🔄 Variação</button><button>⭐ Favoritar</button></div></div></div>`;
+    document.getElementById('gallery').insertAdjacentHTML('afterbegin',card);
+  },2000);
+}
+</script>
+</body></html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>DevSprint Tracker - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:220px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:20px}.side a{color:var(--nebula);text-decoration:none;font-size:.82rem;padding:6px 0;display:block}.side a:hover,.side a.act{color:var(--starlight);font-weight:500}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:14px;border-radius:10px;text-align:center}.kpi-n{font-size:1.3rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}.kpi-l{font-size:.7rem;color:var(--nebula);margin-top:4px}
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:1}.kanban-col{background:rgba(255,255,255,.01);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px}
+.kanban-title{font-size:.78rem;color:var(--nebula);font-weight:600;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.issue{background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:.82rem;cursor:pointer;transition:all .2s}
+.issue:hover{border-color:var(--eblue)}
+.issue-id{font-family:var(--ff-mono);font-size:.7rem;color:var(--orbit);margin-bottom:4px}
+.issue-title{color:var(--starlight);font-weight:500;margin-bottom:6px;font-size:.82rem}
+.issue-meta{display:flex;justify-content:space-between;font-size:.7rem;color:var(--nebula)}
+.tag-s{font-size:.6rem;padding:2px 5px;border-radius:3px;display:inline-block;margin-right:4px}
+.tag-feat{background:rgba(91,142,245,.15);color:var(--eblue)}.tag-bug{background:rgba(244,63,94,.15);color:var(--alert)}.tag-refac{background:rgba(122,92,255,.15);color:var(--aur-violet)}.tag-infra{background:rgba(255,193,7,.15);color:#ffc107}
+.burndown{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:16px;border-radius:10px}
+.burn-row{display:flex;align-items:center;gap:8px;font-size:.78rem;margin-bottom:4px}
+.burn-bar{flex:1;height:14px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden;position:relative}
+.burn-ideal{position:absolute;height:100%;background:rgba(255,255,255,.08);border-right:2px dashed var(--nebula)}
+.burn-actual{height:100%;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side"><a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div style="border-top:1px solid var(--line);padding-top:12px"><div style="color:var(--orbit);font-size:.7rem;text-transform:uppercase;margin-bottom:8px">Sprints</div>
+<a href="#" class="act">Sprint 14 (Atual)</a>
+<a href="#">Sprint 13</a>
+<a href="#">Sprint 12</a>
+</div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle">DevSprint Tracker</h1><span style="color:var(--nebula);font-size:.75rem">Sprint 14 • 05/05 - 19/05</span></div>
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-n">24</div><div class="kpi-l">Issues Total</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">14</div><div class="kpi-l">Concluídas</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--ecyan)">58%</div><div class="kpi-l">Progresso</div></div>
+<div class="kpi"><div class="kpi-n" style="color:#ffc107">5 dias</div><div class="kpi-l">Restantes</div></div>
+</div>
+
+<div class="kanban">
+<div class="kanban-col"><div class="kanban-title">📥 Backlog</div>
+<div class="issue"><div class="issue-id">#ISS-148</div><div class="issue-title"><span class="tag-s tag-feat">FEAT</span>Relatório PDF no WMS</div><div class="issue-meta"><span>3 pts</span><span>—</span></div></div>
+<div class="issue"><div class="issue-id">#ISS-147</div><div class="issue-title"><span class="tag-s tag-infra">INFRA</span>Migrar DB para PostgreSQL</div><div class="issue-meta"><span>8 pts</span><span>—</span></div></div>
+</div>
+<div class="kanban-col"><div class="kanban-title">🔨 Em Dev</div>
+<div class="issue"><div class="issue-id">#ISS-145</div><div class="issue-title"><span class="tag-s tag-feat">FEAT</span>Central Promoções v2</div><div class="issue-meta"><span>5 pts</span><span>Erick</span></div></div>
+<div class="issue"><div class="issue-id">#ISS-144</div><div class="issue-title"><span class="tag-s tag-bug">BUG</span>Cache Gemini não limpa</div><div class="issue-meta"><span>2 pts</span><span>Erick</span></div></div>
+</div>
+<div class="kanban-col"><div class="kanban-title">🔍 Review</div>
+<div class="issue"><div class="issue-id">#ISS-142</div><div class="issue-title"><span class="tag-s tag-refac">REFAC</span>Refatorar monitor_web</div><div class="issue-meta"><span>5 pts</span><span>Erick</span></div></div>
+</div>
+<div class="kanban-col"><div class="kanban-title">✅ Done</div>
+<div class="issue" style="opacity:.7"><div class="issue-id">#ISS-140</div><div class="issue-title"><span class="tag-s tag-bug">BUG</span>Token refresh loop</div><div class="issue-meta"><span>3 pts</span><span>✅</span></div></div>
+<div class="issue" style="opacity:.7"><div class="issue-id">#ISS-139</div><div class="issue-title"><span class="tag-s tag-feat">FEAT</span>Bipagem batch WMS</div><div class="issue-meta"><span>5 pts</span><span>✅</span></div></div>
+<div class="issue" style="opacity:.7"><div class="issue-id">#ISS-138</div><div class="issue-title"><span class="tag-s tag-feat">FEAT</span>Deep Scan Shopee</div><div class="issue-meta"><span>3 pts</span><span>✅</span></div></div>
+</div>
+</div>
+
+<div class="burndown"><h4 style="color:var(--starlight);font-size:.9rem;margin:0 0 12px">📉 Burndown Chart</h4>
+<div id="burnChart"></div>
+</div>
+</main></div>
+<script>
+const days=[{d:'D1',ideal:24,actual:24},{d:'D2',ideal:22,actual:23},{d:'D3',ideal:20,actual:22},{d:'D4',ideal:18,actual:20},{d:'D5',ideal:16,actual:18},{d:'D6',ideal:14,actual:16},{d:'D7',ideal:12,actual:14},{d:'D8',ideal:10,actual:12},{d:'D9',ideal:8,actual:10},{d:'D10',ideal:6,actual:10}];
+document.getElementById('burnChart').innerHTML=days.map(d=>`<div class="burn-row"><span style="width:30px;color:var(--nebula)">${d.d}</span><div class="burn-bar"><div class="burn-ideal" style="width:${(d.ideal/24)*100}%"></div><div class="burn-actual" style="width:${(d.actual/24)*100}%;background:${d.actual>d.ideal+2?'var(--alert)':'var(--ecyan)'}"></div></div><span style="width:20px;color:var(--starlight)">${d.actual}</span></div>`).join('')+'<div style="display:flex;gap:16px;font-size:.72rem;color:var(--nebula);margin-top:8px"><span>— Ideal</span><span style="color:var(--ecyan)">■ Real</span></div>';
+</script>
+</body></html>

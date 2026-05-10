@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navex Demo Hub - [NOME DA FERRAMENTA]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+/* Estilos específicos para as telas de Demo */
+.demo-layout {
+  display: flex;
+  height: 100vh;
+  padding-top: 64px; /* Compensar o topbar */
+}
+.demo-sidebar {
+  width: 250px;
+  background: var(--glass);
+  border-right: 1px solid var(--line);
+  padding: 24px;
+  backdrop-filter: blur(12px);
+  overflow-y: auto;
+}
+.demo-content {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  position: relative;
+  z-index: 10;
+}
+.demo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+.demo-title {
+  font-family: var(--ff-acc);
+  font-size: 1.5rem;
+  color: var(--starlight);
+}
+.demo-card {
+  background: var(--glass);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  backdrop-filter: blur(12px);
+}
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--nebula);
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.3s;
+}
+.back-btn:hover {
+  color: var(--starlight);
+}
+.mock-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.mock-table th, .mock-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--line);
+}
+.mock-table th {
+  color: var(--nebula);
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+</style>
+</head>
+<body>
+
+<div class="aurora-bg">
+  <div class="aurora-layer cyan"></div>
+  <div class="aurora-layer violet"></div>
+  <div class="aurora-layer magenta"></div>
+</div>
+<div class="grid-pattern"></div>
+
+<!-- TOP BAR -->
+<header class="topbar">
+  <div class="container topbar-inner" style="max-width: 100%; padding: 0 32px;">
+    <a href="../navex-hub-portfolio-v1 (1).html" class="brand">
+      <span class="brand-mark" aria-label="Navex"></span>
+      <span class="brand-name">NAVEX</span>
+    </a>
+    <nav class="nav">
+      <a href="../navex-hub-portfolio-v1 (1).html#produtos">Voltar ao Portfólio</a>
+    </nav>
+    <div class="demo-badge" style="font-family: var(--ff-mono); font-size: 0.75rem; color: var(--eblue); border: 1px solid var(--eblue); padding: 4px 8px; border-radius: 4px;">DEMO MODE</div>
+  </div>
+</header>
+
+<div class="demo-layout">
+  <aside class="demo-sidebar">
+    <a href="../navex-hub-portfolio-v1 (1).html" class="back-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+      Voltar
+    </a>
+    <div style="margin-top: 32px;">
+      <h3 style="color: var(--starlight); font-size: 0.875rem; margin-bottom: 16px;">Módulos</h3>
+      <!-- Menu dinâmico aqui -->
+    </div>
+  </aside>
+  
+  <main class="demo-content">
+    <div class="demo-header">
+      <h1 class="demo-title">[NOME DA FERRAMENTA]</h1>
+    </div>
+    
+    <!-- CONTEUDO AQUI -->
+    <div class="demo-card">
+      <p style="color: var(--nebula);">Conteúdo da ferramenta aqui...</p>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

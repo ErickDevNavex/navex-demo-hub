@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>MarginTracker Pro - Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+<style>
+.app{display:flex;height:100vh;padding-top:64px}.side{width:240px;background:rgba(255,255,255,.02);border-right:1px solid var(--line);padding:20px;backdrop-filter:blur(12px);overflow-y:auto;display:flex;flex-direction:column;gap:24px}.side a{color:var(--nebula);text-decoration:none;font-size:.85rem}.main{flex:1;padding:24px;overflow-y:auto;position:relative;z-index:10;display:flex;flex-direction:column;gap:16px}
+.htitle{font-family:var(--ff-acc);font-size:1.3rem;color:var(--starlight)}.badge-demo{font-family:var(--ff-mono);font-size:.7rem;color:var(--eblue);border:1px solid var(--eblue);padding:3px 8px;border-radius:4px}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.kpi{background:rgba(255,255,255,.02);border:1px solid var(--line);padding:14px;border-radius:10px;text-align:center}.kpi-n{font-size:1.3rem;font-weight:700;font-family:var(--ff-acc);color:var(--starlight)}.kpi-l{font-size:.7rem;color:var(--nebula);margin-top:4px}
+.tbl{width:100%;border-collapse:collapse;font-size:.8rem}.tbl th{text-align:left;padding:10px 8px;color:var(--nebula);font-weight:500;border-bottom:1px solid var(--line);font-size:.72rem;text-transform:uppercase;cursor:pointer}.tbl td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.04);color:var(--nebula);transition:all .3s}.tbl tr:hover td{background:rgba(91,142,245,.03)}
+.margin-pos{color:var(--success);font-weight:600}.margin-neg{color:var(--alert);font-weight:600}.margin-low{color:#ffc107;font-weight:600}
+.live-dot{display:inline-block;width:8px;height:8px;background:var(--success);border-radius:50%;margin-right:6px;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.channel{font-size:.65rem;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.06);color:var(--nebula)}
+</style>
+</head>
+<body>
+<div class="aurora-bg"><div class="aurora-layer cyan"></div><div class="aurora-layer violet"></div><div class="aurora-layer magenta"></div></div>
+<div class="grid-pattern"></div>
+<header class="topbar"><div class="container topbar-inner" style="max-width:100%;padding:0 32px"><a href="../navex-hub-portfolio-v1 (1).html" class="brand"><span class="brand-mark"></span><span class="brand-name">NAVEX</span></a><span class="badge-demo">DEMO MODE</span></div></header>
+<div class="app">
+<aside class="side"><a href="../navex-hub-portfolio-v1 (1).html">← Voltar ao Hub</a>
+<div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:8px">Canais</div><div style="font-size:.8rem;color:var(--nebula);line-height:1.8"><div style="color:var(--starlight)">● Mercado Livre</div><div>● Shopee</div><div>● Magazine Luiza</div><div>● Full (Fulfillment)</div></div></div>
+<div><div style="color:var(--starlight);font-size:.85rem;font-weight:600;margin-bottom:8px">Fonte de Custo</div><div style="font-size:.8rem;color:var(--nebula)">BaseLinker API<br>Magis5 API<br><span style="color:var(--success)">● Sincronizado</span></div></div>
+</aside>
+<main class="main">
+<div style="display:flex;justify-content:space-between;align-items:center"><h1 class="htitle"><span class="live-dot"></span>MarginTracker Pro</h1><span style="color:var(--nebula);font-size:.75rem">Atualização: a cada 60s</span></div>
+<div class="kpi-row">
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">R$ 142.800</div><div class="kpi-l">Faturamento (30d)</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--ecyan)">R$ 48.200</div><div class="kpi-l">Custo Total</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--success)">33.7%</div><div class="kpi-l">Margem Média</div></div>
+<div class="kpi"><div class="kpi-n" style="color:var(--alert)">8</div><div class="kpi-l">SKUs Margem Negativa</div></div>
+<div class="kpi"><div class="kpi-n">347</div><div class="kpi-l">SKUs Monitorados</div></div>
+</div>
+<div style="display:flex;gap:8px;align-items:center">
+<select style="background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:6px;padding:6px 12px;color:var(--starlight);font-size:.82rem" onchange="filterCh(this.value)"><option value="all">Todos os canais</option><option value="ml">Mercado Livre</option><option value="shopee">Shopee</option><option value="magalu">Magalu</option></select>
+<select style="background:rgba(255,255,255,.02);border:1px solid var(--line);border-radius:6px;padding:6px 12px;color:var(--starlight);font-size:.82rem"><option>Margem: Menor→Maior</option><option>Margem: Maior→Menor</option><option>Faturamento</option></select>
+</div>
+<div style="overflow-x:auto">
+<table class="tbl"><thead><tr><th>SKU</th><th>Produto</th><th>Canal</th><th>Preço Venda</th><th>Custo</th><th>Comissão</th><th>Frete</th><th>Margem R$</th><th>Margem %</th><th>Status</th></tr></thead>
+<tbody id="tBody"></tbody></table>
+</div>
+</main></div>
+<script>
+const SKUS=[
+{sku:'CID-84',name:'Cuba Inox Dupla 84cm',ch:'ml',pv:489.90,custo:180,com:54.89,frete:42,label:'Mercado Livre'},
+{sku:'ELO-80',name:'Espelho LED Oval 80cm',ch:'ml',pv:329.90,custo:95,com:36.29,frete:35,label:'Mercado Livre'},
+{sku:'TGF-01',name:'Torneira Gourmet Flex',ch:'shopee',pv:199.90,custo:72,com:27.99,frete:18,label:'Shopee'},
+{sku:'COF-56',name:'Cuba Oval Farm Sink',ch:'ml',pv:259.90,custo:110,com:28.59,frete:38,label:'Mercado Livre'},
+{sku:'PRT-120',name:'Prateleira Flutuante 120cm',ch:'magalu',pv:89.90,custo:38,com:14.38,frete:22,label:'Magalu'},
+{sku:'NHX-05',name:'Kit Nichos Hexagonais 5pç',ch:'shopee',pv:129.90,custo:55,com:18.19,frete:15,label:'Shopee'},
+{sku:'LPL-60',name:'Luminária Pendente LED 60cm',ch:'ml',pv:189.90,custo:45,com:20.89,frete:28,label:'Mercado Livre'},
+{sku:'MSR-90',name:'Mesa Rústica Madeira 90cm',ch:'ml',pv:459.90,custo:180,com:50.59,frete:65,label:'Mercado Livre'},
+{sku:'DSS-01',name:'Dispenser Sabão Inox',ch:'shopee',pv:49.90,custo:28,com:6.99,frete:12,label:'Shopee'},
+{sku:'TPT-04',name:'Tapete Antiderrapante',ch:'magalu',pv:39.90,custo:22,com:6.38,frete:15,label:'Magalu'},
+];
+
+function renderTable(filter){
+const f=filter==='all'?SKUS:SKUS.filter(s=>s.ch===filter);
+document.getElementById('tBody').innerHTML=f.map(s=>{
+  const m=s.pv-s.custo-s.com-s.frete;const pct=((m/s.pv)*100);
+  const cls=pct<0?'margin-neg':pct<15?'margin-low':'margin-pos';
+  return`<tr>
+    <td style="font-family:var(--ff-mono);color:var(--starlight)">${s.sku}</td><td>${s.name}</td>
+    <td><span class="channel">${s.label}</span></td>
+    <td>R$ ${s.pv.toFixed(2)}</td><td>R$ ${s.custo.toFixed(2)}</td><td>R$ ${s.com.toFixed(2)}</td><td>R$ ${s.frete.toFixed(2)}</td>
+    <td class="${cls}">R$ ${m.toFixed(2)}</td><td class="${cls}">${pct.toFixed(1)}%</td>
+    <td>${pct<0?'<span style="font-size:.7rem;color:var(--alert)">🔴 PREJUÍZO</span>':pct<15?'<span style="font-size:.7rem;color:#ffc107">⚠️ BAIXA</span>':'<span style="font-size:.7rem;color:var(--success)">✅ OK</span>'}</td>
+  </tr>`}).join('');
+}
+function filterCh(v){renderTable(v);}
+
+// Simular atualização em tempo real
+setInterval(()=>{
+  SKUS.forEach(s=>{s.pv+=(Math.random()-.5)*2;s.custo+=(Math.random()-.5)*.5;s.com=s.pv*0.11;});
+  renderTable('all');
+},5000);
+renderTable('all');
+</script>
+</body></html>
