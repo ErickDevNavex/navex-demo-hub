@@ -87,8 +87,8 @@
       <h4>📋 Relatório de Disputa Gerado</h4>
       <p style="color:var(--nebula);font-size:.85rem;line-height:1.5">Foram identificadas <strong style="color:var(--alert)">89 divergências</strong> totalizando <strong style="color:var(--alert)">R$ 4.832,50</strong> em cobranças indevidas.<br>Principais problemas: Peso cubado incorreto (52 ocorrências), Taxas indevidas (24), Comissão divergente (13).</p>
       <div style="display:flex;gap:12px;margin-top:12px">
-        <button class="btn sm">📥 Exportar Excel</button>
-        <button class="btn ghost sm">📧 Enviar para Transportadora</button>
+        <button class="btn sm" onclick="exportDispute(this)">📥 Exportar Excel</button>
+        <button class="btn ghost sm" onclick="sendCarrier(this)">📧 Enviar para Transportadora</button>
       </div>
     </div>
     <table class="tbl">
@@ -148,6 +148,8 @@ function renderDiv(filter){
 }
 function filterDiv(v){renderDiv(v);}
 function showTab(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');}
+function exportDispute(btn){btn.textContent='Excel pronto';btn.disabled=true;}
+function sendCarrier(btn){btn.textContent='E-mail enviado';btn.disabled=true;}
 renderDiv('all');
 </script>
 </body>

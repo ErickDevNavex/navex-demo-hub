@@ -36,7 +36,7 @@
 <div class="kpi"><div class="kpi-n" style="color:#ffc107">7</div><div class="kpi-l">Aguardando NF</div></div>
 <div class="kpi"><div class="kpi-n">12</div><div class="kpi-l">Revendedores Ativos</div></div>
 </div>
-<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--starlight);margin:0;font-size:1rem">Pedidos Recentes</h3><button class="btn sm">+ Novo Pedido</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--starlight);margin:0;font-size:1rem">Pedidos Recentes</h3><button class="btn sm" onclick="novoPedido(this)">+ Novo Pedido</button></div>
 <table class="tbl"><thead><tr><th>Pedido</th><th>Revendedor</th><th>Itens</th><th>Valor</th><th>Data</th><th>NF</th><th>Status</th></tr></thead>
 <tbody>
 <tr><td style="font-family:var(--ff-mono);color:var(--starlight)">#B2B-0421</td><td>Jorge Mendes</td><td>15</td><td>R$ 4.850,00</td><td>10/05</td><td style="color:var(--success)">Emitida</td><td><span class="st st-ship">ENVIADO</span></td></tr>
@@ -68,5 +68,6 @@
 </div>
 
 </main></div>
-<script>function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}</script>
+<script>function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}
+function novoPedido(btn){const tbody=document.querySelector('#pPedidos tbody');tbody.insertAdjacentHTML('afterbegin','<tr><td style="font-family:var(--ff-mono);color:var(--starlight)">#B2B-0422</td><td>Novo Revendedor</td><td>6</td><td>R$ 1.980,00</td><td>Hoje</td><td style="color:#ffc107">Pendente</td><td><span class="st st-new">NOVO</span></td></tr>');btn.textContent='Pedido criado';btn.disabled=true;}</script>
 </body></html>

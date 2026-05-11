@@ -63,7 +63,7 @@
 </div>
 
 <div class="panel" id="pAgenda">
-<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--starlight);margin:0">📅 Agenda — Hoje</h3><button class="btn sm">+ Novo Agendamento</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--starlight);margin:0">📅 Agenda — Hoje</h3><button class="btn sm" onclick="novoAgendamento(this)">+ Novo Agendamento</button></div>
 <div class="agenda-grid">
 <div class="hora">08:00</div><div class="slot"><span class="apt-free">— Disponível —</span></div>
 <div class="hora">09:00</div><div class="slot"><div class="apt apt-conf"><span>👤 Ana Silva • Limpeza de Pele Profunda</span><span>✅ Confirmado</span></div></div>
@@ -114,5 +114,6 @@ Evitar exposição solar direta<br><br>
 </div>
 
 </main></div>
-<script>function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}</script>
+<script>function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}
+function novoAgendamento(btn){const free=document.querySelector('.apt-free');if(free){free.outerHTML='<div class="apt apt-pend"><span>Novo paciente - Consulta de avaliacao</span><span>Pendente</span></div>';}btn.textContent='Agendamento incluido';btn.disabled=true;}</script>
 </body></html>

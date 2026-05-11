@@ -55,7 +55,7 @@
         <h1 class="demo-title">Review Analyzer</h1>
         <p style="color:var(--nebula); font-size:0.875rem; margin-top:4px;">Análise de Sentimento com IA sobre comentários de clientes.</p>
       </div>
-      <button class="btn sm">Extrair Novos Reviews</button>
+      <button class="btn sm" onclick="extractReviews(this)">Extrair Novos Reviews</button>
     </div>
     
     <div class="demo-card">
@@ -105,5 +105,13 @@
     </div>
   </main>
 </div>
+<script>
+function extractReviews(btn){
+  const list=document.querySelector('.review-list');
+  list.insertAdjacentHTML('afterbegin','<div class="review-item"><div style="flex:1"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><span class="review-stars">★★★★★</span><span class="sentiment-badge sentiment-positive">POS_SOM</span></div><p style="color:var(--starlight); font-size:0.9rem;">"Review novo importado da demo: som limpo e bateria excelente."</p><div style="font-size:0.75rem; color:var(--nebula); margin-top:8px;">Cliente Demo - Agora</div></div></div>');
+  btn.textContent='Reviews atualizados';
+  btn.disabled=true;
+}
+</script>
 </body>
 </html>

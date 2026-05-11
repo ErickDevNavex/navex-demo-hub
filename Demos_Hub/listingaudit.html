@@ -101,7 +101,7 @@
     <div class="audit-card">
       <h4>✍️ Nova Descrição AIDA (Gerada pela IA)</h4>
       <div class="aida-block" id="detAIDA"></div>
-      <div style="display:flex;gap:8px;margin-top:12px"><button class="btn sm">📋 Copiar</button><button class="btn ghost sm">📥 Exportar Excel</button></div>
+      <div style="display:flex;gap:8px;margin-top:12px"><button class="btn sm" onclick="copyAida(this)">📋 Copiar</button><button class="btn ghost sm" onclick="exportAudit(this)">📥 Exportar Excel</button></div>
     </div>
   </div>
 </main>
@@ -132,6 +132,8 @@ function renderGrid(){
 
 function filterN(f){currentFilter=f;renderGrid();}
 function showGrid(){document.getElementById('gridView').style.display='';document.getElementById('detView').classList.remove('active');}
+function copyAida(btn){navigator.clipboard?.writeText(document.getElementById('detAIDA').textContent);btn.textContent='Copiado';}
+function exportAudit(btn){btn.textContent='Excel pronto';btn.disabled=true;}
 
 function openDetail(id){
   const i=ITEMS.find(x=>x.id===id);if(!i)return;

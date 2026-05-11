@@ -76,7 +76,7 @@
 
 <!-- OPs -->
 <div class="panel" id="pOps">
-<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--starlight);margin:0">Ordens de Produção</h3><button class="btn sm">+ Nova OP</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center"><h3 style="color:var(--starlight);margin:0">Ordens de Produção</h3><button class="btn sm" onclick="novaOP(this)">+ Nova OP</button></div>
 <table class="tbl"><thead><tr><th>OP</th><th>Produto</th><th>SKU</th><th>Qtd</th><th>Produzido</th><th>Status</th><th>Operador</th><th>Início</th></tr></thead>
 <tbody>
 <tr><td style="color:var(--starlight);font-family:var(--ff-mono)">OP-482</td><td>Cuba Inox Dupla 84cm</td><td style="font-family:var(--ff-mono)">CID-84</td><td>50</td><td>32/50</td><td><span class="st st-prod">PRODUZINDO</span></td><td>Maria</td><td>08:00</td></tr>
@@ -137,6 +137,7 @@
 <script>
 let bipCount=28;
 function sP(id,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById('p'+id.charAt(0).toUpperCase()+id.slice(1)).classList.add('active');document.querySelectorAll('.side a').forEach(a=>a.classList.remove('act'));if(el)el.classList.add('act');}
+function novaOP(btn){const tbody=document.querySelector('#pOps tbody');tbody.insertAdjacentHTML('afterbegin','<tr><td style="color:var(--starlight);font-family:var(--ff-mono)">OP-483</td><td>Kit reposicao especial</td><td style="font-family:var(--ff-mono)">KIT-01</td><td>20</td><td>0/20</td><td><span class="st st-wait">AGUARDANDO</span></td><td>-</td><td>Agora</td></tr>');btn.textContent='OP criada';btn.disabled=true;}
 function bipar(){const inp=document.getElementById('bipInput');const v=inp.value.trim()||'ELO-80-'+(bipCount+1).toString().padStart(3,'0');bipCount++;const log=document.getElementById('bipLog');const ok=Math.random()>0.15;log.innerHTML=`<div class="bip-item ${ok?'bip-ok':'bip-err'}"><span>${ok?'✅':'❌'} ${v} ${ok?'bipada':'— OP errada!'}</span><span>${new Date().toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</span></div>`+log.innerHTML;inp.value='';inp.focus();}
 const STOCK=[
 {sku:'CID-84',name:'Cuba Inox Dupla 84cm',atual:8,min:15,max:50},{sku:'ELO-80',name:'Espelho LED Oval 80cm',atual:22,min:10,max:40},{sku:'TGF-01',name:'Torneira Gourmet Flex',atual:3,min:20,max:100},{sku:'COF-56',name:'Cuba Oval Farm Sink',atual:45,min:10,max:60},{sku:'PRT-120',name:'Prateleira Flutuante 120cm',atual:5,min:12,max:50},
