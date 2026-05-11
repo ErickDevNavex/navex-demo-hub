@@ -645,7 +645,10 @@ body{
   background:var(--void);border:1px solid var(--line-2);border-radius:8px;
   padding:12px 14px;color:var(--starlight);font-family:var(--ff-sans);font-size:14px;outline:none;
   transition:border-color .2s;
+  color-scheme:dark;
 }
+.form-row select{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:linear-gradient(45deg,transparent 50%,var(--ecyan) 50%),linear-gradient(135deg,var(--ecyan) 50%,transparent 50%);background-position:calc(100% - 18px) 18px,calc(100% - 12px) 18px;background-size:6px 6px;background-repeat:no-repeat}
+.form-row select option{background:#08132f;color:var(--starlight)}
 .form-row input:focus,.form-row select:focus,.form-row textarea:focus{border-color:var(--ecyan)}
 .form-row textarea{resize:vertical;min-height:90px}
 
