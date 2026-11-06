@@ -2,7 +2,7 @@
 
 Este projeto usa o Renatao como cerebro central externo.
 
-- Projeto de trabalho: `C:\Users\erick\Desktop\HUb sistremas Navex`
+- Projeto de trabalho: `C:\Users\erick\Desktop\Projetos\HUb sistremas Navex`
 - Cerebro central: `C:\Users\erick\Desktop\Cerebro_Renatao\Cerebro_Renatao`
 
 Antes de implementar qualquer tarefa relevante, rode no terminal deste workspace:
@@ -17,6 +17,9 @@ se precisa acionar GSD, seguranca, UI/UX e radar de recursos. Comece por
 Leia `.renatao/TEST_FIRST_PLAN.md` antes de qualquer edicao de codigo.
 Leia tambem `.renatao/AGENT_RUNTIME.md` e `.renatao/COMMAND_POLICY.md` quando
 existirem; eles definem o ciclo operacional, validacoes e limites de comandos.
+Leia `.renatao/RELIABILITY_CONTRACT.md`, `.renatao/CAPABILITIES.md`,
+`.renatao/USER_PREFERENCES.md` e preencha `.renatao/EXECUTION_RECEIPT.md`
+antes de concluir. Nao diga "feito" sem evidencia.
 
 Use as memorias e skills retornadas como contexto inicial. Edite somente este
 workspace de trabalho, valide a mudanca e registre memoria quando houver decisao
@@ -92,4 +95,10 @@ Antes de entregar, rode:
 
 ```powershell
 renatao review --task "<tarefa atual>" --write
+```
+
+Para preparar o pacote completo de execucao confiavel:
+
+```powershell
+renatao execute --task "<tarefa atual>"
 ```
